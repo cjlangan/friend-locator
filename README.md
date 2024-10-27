@@ -23,3 +23,4 @@
     - So, in order to use this web app, they must first go to their settings and enable location services for their browser.
     - This is a slight, and unfortunate, barrier, and there is not much we can do other than give instruction on our webapp so the user know to go and do this.
         - Their is no indication otherwise as to why the location does not work.
+- At this point, we are ready to either test receiving another webapp user's coordinates and/or finding a way to draw a vecotor that points to a coordinate location.
