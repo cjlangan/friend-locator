@@ -37,3 +37,6 @@
 - Added ability to obtain device orientation on IOS mobile, it requires manual permission via its own function
     - It must also be done through manual interaction, such as a button.
     - THis isn't bad, odds are we have some other `start finding friends` button and through that we can run the Orientation Permission Request.
+
+
+    update
