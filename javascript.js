@@ -25,23 +25,44 @@ function main()
     {
         console.log("Gelocation API is not available");
     }
-
-    // Get Device Orientation
-    if(window.DeviceOrientationEvent)
-    {
-        console.log("Retrieving Device Orientation...")
-
-        window.addEventListener("deviceorientation", handleOrientation, true); 
-    }
-    else
-    {
-        console.error("Device Orientation is not available")
-    }
 }
 
 function error(err)
 {
     console.error(`ERROR(${err.code}): ${err.message}`);
+}
+
+const ios = () => 
+{
+    if (typeof window === `undefined` || typeof navigator === `undefined`) return false;
+
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent || navigator.vendor || (window.opera && opera.toString() === `[object Opera]`));
+}
+
+function requestOrientationPermission()
+{
+    console.log("Device Orientation Requested...");
+
+    if(ios())
+    {
+        console.log("Device is running IOS mobile...");
+
+        DeviceOrientationEvent.requestPermission()
+        .then(response =>
+        {
+            if(response == "granted")
+            {
+                console.log("Permission Granted");
+                window.addEventListener("deviceorientation", handleOrientation, true); 
+            }
+        })
+        .catch(console.error)
+    }
+    else
+    {
+        console.log("Device is not IOS mobile. Orinetation can be obtained.");
+        window.addEventListener("deviceorientation", handleOrientation, true); 
+    }
 }
 
 function setLocation(position)
