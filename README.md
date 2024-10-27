@@ -14,3 +14,12 @@
 - An iphone app has insanely accurate and fast coordinates, that is what I'd like to replicate.
 
 ### Day 2
+
+- Managed to test website on iPhone via and https connection using ngrok. A few things to note...
+    1. the location precision is much higher, like up to 7 more decimal places in accuracy.
+    2. the time taken to update the location is a fraction of a second.
+- These are ideal, however...:
+    - It is most likely that the user will have their location off for browser apps such as safari or chrome. 
+    - So, in order to use this web app, they must first go to their settings and enable location services for their browser.
+    - This is a slight, and unfortunate, barrier, and there is not much we can do other than give instruction on our webapp so the user know to go and do this.
+        - Their is no indication otherwise as to why the location does not work.
