@@ -32,3 +32,8 @@
 - Next up is to add the Device Orientation API, only then can we decide where a vector can point relatively.
 - I added the device orientation function, but for some reason (when using on my iPhone as I should be), it appears that we aren't getting any information
     - This may be an iPhone problem, Logan was able to have has phone work with a demo website that used this function...
+
+### Day 3 
+- Added ability to obtain device orientation on IOS mobile, it requires manual permission via its own function
+    - It must also be done through manual interaction, such as a button.
+    - THis isn't bad, odds are we have some other `start finding friends` button and through that we can run the Orientation Permission Request.
