@@ -30,3 +30,5 @@
         - Their is no indication otherwise as to why the location does not work.
 - ~~At this point, we are ready to either test receiving another webapp user's coordinates and/or finding a way to draw a vecotor that points to a coordinate location.~~
 - Next up is to add the Device Orientation API, only then can we decide where a vector can point relatively.
+- I added the device orientation function, but for some reason (when using on my iPhone as I should be), it appears that we aren't getting any information
+    - This may be an iPhone problem, Logan was able to have has phone work with a demo website that used this function...
