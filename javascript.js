@@ -4,7 +4,7 @@ const acc_html = document.getElementById("accuracy");
 
 main()
 
-funciton main()
+function main()
 {
     if("geolocation" in navigator)
     {
