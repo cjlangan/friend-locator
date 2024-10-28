@@ -19,6 +19,7 @@ let size; // dimension size of canvas
 
 let myLatitude;
 let myLongitude;
+let myOrientation;
 
 // Coordinate direction of vector. Range [-1, 1]. e.g: (1, -1) is the bottom right corner.
 let xFactor = 0;
