@@ -32,7 +32,7 @@ function error(err)
     console.error(`ERROR(${err.code}): ${err.message}`);
 }
 
-const ios = () => 
+function isIOS()
 {
     if (typeof window === `undefined` || typeof navigator === `undefined`) return false;
 
@@ -43,7 +43,7 @@ function requestOrientationPermission()
 {
     console.log("Device Orientation Requested...");
 
-    if(ios())
+    if(isIOS())
     {
         console.log("Device is running IOS mobile...");
 
