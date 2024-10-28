@@ -192,10 +192,7 @@ function handleOrientation(event)
 
     rotation.innerHTML = "Rotation: " + compass;
 
-<<<<<<< HEAD
     let angleStationary = findStationaryAngle(49.8099, -97.13507);
-=======
->>>>>>> e2c58a85d7942d249a2b1008e9f9d99cbed4c79e
     let vectorAngle = angleStationary + compass;
 
     xFactor = Math.cos(vectorAngle * Math.PI / 180);
