@@ -12,6 +12,7 @@ const vecy = document.getElementById("vecy");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
 
+
 // Geolocation API options
 const options = {
     enableHighAccuracy: true,
@@ -132,13 +133,18 @@ function requestOrientationPermission()
     else
     {
         console.log("Device is not IOS mobile. Orinetation can be obtained.");
-        window.addEventListener("deviceorientationabsolute", handleOrientation, true); 
+        window.addEventListener("deviceorientation", handleOrientation, true); 
     }
 }
 
 // Update html to reflect coordinates
 function setLocation(position)
 {
+    //sometimes the event triggers without the latitude or longitude changing.
+    if(position.coords.latitude == myLatitude &&
+       position.coords.longitude == myLongitude)
+        return;
+
     send_location(position.coords);
     myLatitude = position.coords.latitude;
     myLongitude = position.coords.longitude;
@@ -157,6 +163,7 @@ function send_location(coords)
     body = 'lat='+coords.latitude+'&lon='+coords.longitude+'&acc='+coords.accuracy;
     request.send(body)
 }
+
 
 // Set html elements to acquired Device Orientation Data
 function handleOrientation(event)
@@ -178,6 +185,7 @@ function handleOrientation(event)
 
     xFactor = Math.cos(vectorAngle * Math.PI / 180);
     yFactor = Math.sin(vectorAngle * Math.PI / 180);
+
 
     render();
 }
