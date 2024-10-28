@@ -4,12 +4,6 @@
 
 ## Currently in Development
 
-## Resources 
-
-- [Device Orientation](https://developer.mozilla.org/en-US/docs/Web/API/Window/deviceorientation_event)
-- [Geolocation](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API)
-
-
 ### Day 1 
 
 - Implemented basic geolocation request with auto updating 
@@ -43,6 +37,10 @@
     - We will have to retrieve another piece of data from the phone so that we know which way, say North, is relative to the phone's orientation...
 
 ### Day 4 
-- So 0^o is your phones orientation when you first allow orientation permission. 
+- So $0^o$ is your phones orientation when you first allow orientation permission. 
 - So, if we can determine what the original direction the phone points to (e.g: North), then we can always calculate its current direction based on rotation.
-    - IDEA: Have coordinates or a vector be originally directly North, so this vecotr will be pointing a direction on the canvas, then we can correct that Northern vector relative to the device orientation 
+    - ~~IDEA: Have coordinates or a vector be originally directly North, so this vecotr will be pointing a direction on the canvas, then we can correct that Northern vector relative to the device orientation~~
+- Able to resolve this by using the webkitCompassHeading event.
+- We can now point to specific coordinates relative to the phones orientation 
+    - We found that this worked best outside
+- Logan was able to set up the Flask server, and be able to send coordinate data to it.
