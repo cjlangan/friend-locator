@@ -18,6 +18,9 @@ const options = {
 
 let size; // dimension size of canvas
 
+let myLatitude;
+let myLongitude;
+
 // Coordinate direction of vector. Range [-1, 1]. e.g: (1, -1) is the bottom right corner.
 let xFactor = 0;
 let yFactor = 0.5;
@@ -27,6 +30,7 @@ main()
 function main()
 {
     getLocation();
+    resizeCanvas();
     render();
 }
 
@@ -38,11 +42,27 @@ function render()
 
 function drawVector()
 {
-    ctx.fillStyle = 'black';
     ctx.beginPath();
     ctx.moveTo(size / 2, size / 2);
     ctx.lineTo(size / 2 + xFactor * size / 2, size / 2 - yFactor * size / 2);
     ctx.stroke();
+}
+
+function calculateVector(otherLatitude, otherLongitude)
+{
+    console.log("Determining Vector...")
+
+    let xDiff = otherLongitude - myLongitude;
+    let yDiff = otherLatitude - myLatitude;
+
+    let length = Math.sqrt(xDiff ^ 2 + yDiff ^ 2);
+
+    xFactor = xDiff / length;
+    yFactor = yDiff / length;
+
+    console.log("x: " + xFactor + "\ny: " + yFactor);
+
+    render();
 }
 
 window.addEventListener('resize', resizeCanvas);
@@ -111,10 +131,15 @@ function requestOrientationPermission()
 // Update html to reflect coordinates
 function setLocation(position)
 {
-    lat_html.innerHTML = "Latitude: " + position.coords.latitude;
-    long_html.innerHTML = "Longitude: " + position.coords.longitude;
+    myLatitude = position.coords.latitude;
+    myLongitude = position.coords.longitude;
+
+    lat_html.innerHTML = "Latitude: " + myLatitude;
+    long_html.innerHTML = "Longitude: " + myLongitude;
     acc_html.innerHTML = "Accuracy: " + position.coords.accuracy;
     console.log("Location set");
+
+    calculateVector(0, 0);
 }
 
 // Set html elements to acquired Device Orientation Data
@@ -130,8 +155,8 @@ function handleOrientation(event)
     left_to_right.innerHTML = "Left to Right: " + leftToRight;
     front_to_back.innerHTML = "Front to Back: " + frontToBack;
 
-    xFactor = Math.cos(rotateDegrees * Math.PI / 180);
-    yFactor = Math.sin(rotateDegrees * Math.PI / 180);
-
+    //xFactor = Math.cos(rotateDegrees * Math.PI / 180);
+    //yFactor = Math.sin(rotateDegrees * Math.PI / 180);
+    
     render();
 }
