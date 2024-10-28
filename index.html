@@ -7,21 +7,17 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div>
-        <h1 id="latitude">-----</h1>
-        <h1 id="longitude">-----</h1>
-        <h1 id="accuracy">-----</h1>
-    </div>
-    
-    <div>
-        <h1 id="rotation">-----</h1>
-        <h1 id="lefttoright">-----</h1>
-        <h1 id="fronttoback">-----</h1>
-    </div>
+    <h1 id="latitude">No Data</h1>
+    <h1 id="longitude">No Data</h1>
+    <h1 id="accuracy">No Data</h1>
 
-    <div>
-        <button onclick='requestOrientationPermission();'> Click Here to Give Orientation Permission, if on IOS mobile</button>
-    </div>
+    <h1 id="rotation">No Data</h1>
+    <h1 id="lefttoright">No Data</h1>
+    <h1 id="fronttoback">No Data</h1>
+
+    <button onclick='requestOrientationPermission();'> Click Here to Give Orientation Permission, if on IOS mobile</button>
+
+    <canvas id="canvas"></canvas>
 
     <script src="javascript.js"></script>
 </body>
