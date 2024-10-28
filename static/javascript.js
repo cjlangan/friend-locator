@@ -139,28 +139,47 @@ function requestOrientationPermission()
 // Update html to reflect coordinates
 function setLocation(position)
 {
+    coords = position.coords;
     //sometimes the event triggers without the latitude or longitude changing.
     if(position.coords.latitude == myLatitude &&
        position.coords.longitude == myLongitude)
         return;
 
-    send_location(position.coords);
-    myLatitude = position.coords.latitude;
-    myLongitude = position.coords.longitude;
+    myLatitude = coords.latitude;
+    myLongitude = coords.longitude;
+
+    //send position to server.
+    position_array = ["lat", myLatitude, "lon", myLongitude, "acc", coords.accuracy]
+    send_post("/API/location", http_encode(position_array));
 
     lat_html.innerHTML = "Latitude: " + myLatitude;
     long_html.innerHTML = "Longitude: " + myLongitude;
-    acc_html.innerHTML = "Accuracy: " + position.coords.accuracy;
+    acc_html.innerHTML = "Accuracy: " + coords.accuracy;
     console.log("Location set");
 }
 
-function send_location(coords)
+//HTTP encodes an arry where the first element is the key and the second is the 
+//value, the third is the key and the fourth is the value and so on.
+function http_encode(array) {
+
+    if(array.length % 2 != 0)
+        return undefined;
+
+    let string = "";
+    for(i = 0; i < array.length / 2; i++) {
+        string += array[i] + "=" + array[i + 1];
+        if(i != array.length / 2 - 1)
+            string += "&";
+    }
+    return string;
+}
+
+function send_post(location, payload)
 {
     request = new XMLHttpRequest();     
-    request.open("POST", "/API/location");
-    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-    body = 'lat='+coords.latitude+'&lon='+coords.longitude+'&acc='+coords.accuracy;
-    request.send(body)
+    request.open("POST", location);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(payload)
 }
 
 
@@ -173,7 +192,10 @@ function handleOrientation(event)
 
     rotation.innerHTML = "Rotation: " + compass;
 
+<<<<<<< HEAD
     let angleStationary = findStationaryAngle(49.8099, -97.13507);
+=======
+>>>>>>> e2c58a85d7942d249a2b1008e9f9d99cbed4c79e
     let vectorAngle = angleStationary + compass;
 
     xFactor = Math.cos(vectorAngle * Math.PI / 180);
