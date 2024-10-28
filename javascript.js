@@ -51,7 +51,7 @@ function drawVector()
     ctx.stroke();
 }
 
-function calculateVector(otherLatitude, otherLongitude)
+function findStationaryAngle(otherLatitude, otherLongitude)
 {
     console.log("Determining Vector...")
 
@@ -60,11 +60,17 @@ function calculateVector(otherLatitude, otherLongitude)
 
     let length = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
 
-    xFactor = xDiff / length;
-    yFactor = yDiff / length;
+    // Normalise coordinates to ensure a length of 1
+    let xStationary = xDiff / length;
+    let yStationary = yDiff / length;
 
-    vecx.innerHTML = "x: " + xFactor;
-    vecy.innerHTML = "y: " + yFactor;
+    // Find angle in radians
+    let angle = Math.atan2(yStationary, xStationary) * (180 / Math.PI);
+
+    vecx.innerHTML = "x: " + xStationary;
+    vecy.innerHTML = "y: " + angle;
+
+    return angle;
 }
 
 window.addEventListener('resize', resizeCanvas);
@@ -140,9 +146,6 @@ function setLocation(position)
     long_html.innerHTML = "Longitude: " + myLongitude;
     acc_html.innerHTML = "Accuracy: " + position.coords.accuracy;
     console.log("Location set");
-
-    calculateVector(0, -100);
-    render();
 }
 
 // Set html elements to acquired Device Orientation Data
@@ -158,7 +161,11 @@ function handleOrientation(event)
     left_to_right.innerHTML = "Left to Right: " + leftToRight;
     front_to_back.innerHTML = "Front to Back: " + frontToBack;
 
-    //xFactor = Math.cos(rotateDegrees * Math.PI / 180);
-    //yFactor = Math.sin(rotateDegrees * Math.PI / 180);
-    //render();
+    let angleStationary = findStationaryAngle(60, -150);
+    let vectorAngle = angleStationary - rotateDegrees;
+
+    xFactor = Math.cos(vectorAngle * Math.PI / 180);
+    yFactor = Math.sin(vectorAngle * Math.PI / 180);
+
+    render();
 }
