@@ -6,6 +6,8 @@ const rotation = document.getElementById("rotation");
 const left_to_right = document.getElementById("lefttoright");
 const front_to_back = document.getElementById("fronttoback");
 
+const canvas = document.getElementById("canvas");
+
 // Geolocation API options
 const options = {
     enableHighAccuracy: true,
@@ -16,6 +18,11 @@ const options = {
 main() 
 
 function main()
+{
+    getLocation();
+}
+
+function getLocation()
 {
     // Get location coordinates and send to setLocation function
     if("geolocation" in navigator)
