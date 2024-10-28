@@ -37,6 +37,9 @@
 - Added ability to obtain device orientation on IOS mobile, it requires manual permission via its own function
     - It must also be done through manual interaction, such as a button.
     - THis isn't bad, odds are we have some other `start finding friends` button and through that we can run the Orientation Permission Request.
+- Added canvas to draw a vector 
+- I made a system to that we can draw a vector that always points at a specific geo-location relative to device orientation, however:
+    - ISSUE: It turns out that the device orientation numbers change every time the website is loaded. I was under the assumption that 360 degrees always meant south, however this is not the case
+    - We will have to retrieve another piece of data from the phone so that we know which way, say North, is relative to the phone's orientation...
 
 
-    update
