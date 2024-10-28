@@ -7,6 +7,7 @@ const left_to_right = document.getElementById("lefttoright");
 const front_to_back = document.getElementById("fronttoback");
 
 const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext('2d');
 
 // Geolocation API options
 const options = {
@@ -20,6 +21,22 @@ main()
 function main()
 {
     getLocation();
+    drawVector();
+}
+
+function drawVector()
+{
+    ctx.fillStyle = 'red';
+    ctx.fillRect(100, 100, 100, 100);
+}
+
+window.addEventListener('resize', resizeCanvas);
+
+function resizeCanvas()
+{
+    const size = Math.round(0.8 * Math.min(window.innerHeight, window.innerWidth) / 8) * 8;
+    canvas.height = size;
+    canvas.width = size;
 }
 
 function getLocation()
