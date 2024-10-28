@@ -32,6 +32,7 @@ function main()
 
 function render()
 {
+    ctx.clearRect(0,0, canvas.width, canvas.height);
     drawVector();
 }
 
@@ -128,4 +129,9 @@ function handleOrientation(event)
     rotation.innerHTML = "Rotation: " + rotateDegrees;
     left_to_right.innerHTML = "Left to Right: " + leftToRight;
     front_to_back.innerHTML = "Front to Back: " + frontToBack;
+
+    xFactor = Math.cos(rotateDegrees * Math.PI / 180);
+    yFactor = Math.sin(rotateDegrees * Math.PI / 180);
+
+    render();
 }
