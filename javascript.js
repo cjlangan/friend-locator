@@ -21,6 +21,11 @@ main()
 function main()
 {
     getLocation();
+    render();
+}
+
+function render()
+{
     drawVector();
 }
 
@@ -37,6 +42,8 @@ function resizeCanvas()
     const size = Math.round(0.8 * Math.min(window.innerHeight, window.innerWidth) / 8) * 8;
     canvas.height = size;
     canvas.width = size;
+
+    render();
 }
 
 function getLocation()
