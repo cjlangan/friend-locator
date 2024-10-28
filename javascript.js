@@ -132,7 +132,7 @@ function requestOrientationPermission()
     else
     {
         console.log("Device is not IOS mobile. Orinetation can be obtained.");
-        window.addEventListener("deviceorientation", handleOrientation, true); 
+        window.addEventListener("deviceorientationabsolute", handleOrientation, true); 
     }
 }
 
@@ -151,6 +151,8 @@ function setLocation(position)
 // Set html elements to acquired Device Orientation Data
 function handleOrientation(event)
 {
+    let compass = event.webkitCompassHeading || Math.abs(event.alpha - 360);
+
     let rotateDegrees = event.alpha;    // rotation around Z-axis
     let leftToRight = event.gamma;      // Range [-90, 90]
     let frontToBack = event.beta;       // Range [-180, 180]
@@ -161,8 +163,8 @@ function handleOrientation(event)
     left_to_right.innerHTML = "Left to Right: " + leftToRight;
     front_to_back.innerHTML = "Front to Back: " + frontToBack;
 
-    let angleStationary = findStationaryAngle(60, -150);
-    let vectorAngle = angleStationary - rotateDegrees;
+    let angleStationary = findStationaryAngle(49, -200);
+    let vectorAngle = angleStationary + compass;
 
     xFactor = Math.cos(vectorAngle * Math.PI / 180);
     yFactor = Math.sin(vectorAngle * Math.PI / 180);
