@@ -139,6 +139,7 @@ function requestOrientationPermission()
 // Update html to reflect coordinates
 function setLocation(position)
 {
+    send_location(position.coords);
     myLatitude = position.coords.latitude;
     myLongitude = position.coords.longitude;
 
@@ -146,6 +147,15 @@ function setLocation(position)
     long_html.innerHTML = "Longitude: " + myLongitude;
     acc_html.innerHTML = "Accuracy: " + position.coords.accuracy;
     console.log("Location set");
+}
+
+function send_location(coords)
+{
+    request = new XMLHttpRequest();     
+    request.open("POST", "/API/location");
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+    body = 'lat='+coords.latitude+'&lon='+coords.longitude+'&acc='+coords.accuracy;
+    request.send(body)
 }
 
 // Set html elements to acquired Device Orientation Data
