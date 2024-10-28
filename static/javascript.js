@@ -3,11 +3,6 @@ const long_html = document.getElementById("longitude");
 const acc_html = document.getElementById("accuracy");
 
 const rotation = document.getElementById("rotation");
-const left_to_right = document.getElementById("lefttoright");
-const front_to_back = document.getElementById("fronttoback");
-
-const vecx = document.getElementById("vecx");
-const vecy = document.getElementById("vecy");
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
@@ -67,9 +62,6 @@ function findStationaryAngle(otherLatitude, otherLongitude)
 
     // Find angle in radians
     let angle = Math.atan2(yStationary, xStationary) * (180 / Math.PI);
-
-    vecx.innerHTML = "x: " + xStationary;
-    vecy.innerHTML = "y: " + angle;
 
     return angle;
 }
@@ -168,24 +160,17 @@ function send_location(coords)
 // Set html elements to acquired Device Orientation Data
 function handleOrientation(event)
 {
-    let compass = event.webkitCompassHeading || Math.abs(event.alpha - 360);
-
-    let rotateDegrees = event.alpha;    // rotation around Z-axis
-    let leftToRight = event.gamma;      // Range [-90, 90]
-    let frontToBack = event.beta;       // Range [-180, 180]
-
     console.log("Orientation Received.")
 
+    let compass = event.webkitCompassHeading || Math.abs(event.alpha - 360);
+
     rotation.innerHTML = "Rotation: " + compass;
-    left_to_right.innerHTML = "Left to Right: " + leftToRight;
-    front_to_back.innerHTML = "Front to Back: " + frontToBack;
 
     let angleStationary = findStationaryAngle(50, -100);
     let vectorAngle = angleStationary + compass;
 
     xFactor = Math.cos(vectorAngle * Math.PI / 180);
     yFactor = Math.sin(vectorAngle * Math.PI / 180);
-
 
     render();
 }
