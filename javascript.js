@@ -16,6 +16,12 @@ const options = {
     maximumAge: 0,
 };
 
+let size; // dimension size of canvas
+
+// Coordinate direction of vector. Range [-1, 1]. e.g: (1, -1) is the bottom right corner.
+let xFactor = 0;
+let yFactor = 0.5;
+
 main() 
 
 function main()
@@ -31,15 +37,18 @@ function render()
 
 function drawVector()
 {
-    ctx.fillStyle = 'red';
-    ctx.fillRect(100, 100, 100, 100);
+    ctx.fillStyle = 'black';
+    ctx.beginPath();
+    ctx.moveTo(size / 2, size / 2);
+    ctx.lineTo(size / 2 + xFactor * size / 2, size / 2 - yFactor * size / 2);
+    ctx.stroke();
 }
 
 window.addEventListener('resize', resizeCanvas);
 
 function resizeCanvas()
 {
-    const size = Math.round(0.8 * Math.min(window.innerHeight, window.innerWidth) / 8) * 8;
+    size = Math.round(0.8 * Math.min(window.innerHeight, window.innerWidth) / 8) * 8;
     canvas.height = size;
     canvas.width = size;
 
