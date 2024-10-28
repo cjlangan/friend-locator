@@ -6,6 +6,7 @@ const rotation = document.getElementById("rotation");
 const left_to_right = document.getElementById("lefttoright");
 const front_to_back = document.getElementById("fronttoback");
 
+// Geolocation API options
 const options = {
     enableHighAccuracy: true,
     timeout: Infinity,
@@ -27,6 +28,7 @@ function main()
     }
 }
 
+// For the geolocation parameter, I think its necessary?
 function error(err)
 {
     console.error(`ERROR(${err.code}): ${err.message}`);
@@ -65,6 +67,7 @@ function requestOrientationPermission()
     }
 }
 
+// Update html to reflect coordinates
 function setLocation(position)
 {
     lat_html.innerHTML = "Latitude: " + position.coords.latitude;
