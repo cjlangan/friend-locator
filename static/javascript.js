@@ -169,11 +169,11 @@ function handleOrientation(event)
 
     console.log("Orientation Received.")
 
-    rotation.innerHTML = "Rotation: " + rotateDegrees;
+    rotation.innerHTML = "Rotation: " + compass;
     left_to_right.innerHTML = "Left to Right: " + leftToRight;
     front_to_back.innerHTML = "Front to Back: " + frontToBack;
 
-    let angleStationary = findStationaryAngle(49, -200);
+    let angleStationary = findStationaryAngle(50, -100);
     let vectorAngle = angleStationary + compass;
 
     xFactor = Math.cos(vectorAngle * Math.PI / 180);
