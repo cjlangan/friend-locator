@@ -6,6 +6,9 @@ const rotation = document.getElementById("rotation");
 const left_to_right = document.getElementById("lefttoright");
 const front_to_back = document.getElementById("fronttoback");
 
+const vecx = document.getElementById("vecx");
+const vecy = document.getElementById("vecy");
+
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
 
@@ -55,14 +58,13 @@ function calculateVector(otherLatitude, otherLongitude)
     let xDiff = otherLongitude - myLongitude;
     let yDiff = otherLatitude - myLatitude;
 
-    let length = Math.sqrt(xDiff ^ 2 + yDiff ^ 2);
+    let length = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
 
     xFactor = xDiff / length;
     yFactor = yDiff / length;
 
-    console.log("x: " + xFactor + "\ny: " + yFactor);
-
-    render();
+    vecx.innerHTML = "x: " + xFactor;
+    vecy.innerHTML = "y: " + yFactor;
 }
 
 window.addEventListener('resize', resizeCanvas);
@@ -139,7 +141,8 @@ function setLocation(position)
     acc_html.innerHTML = "Accuracy: " + position.coords.accuracy;
     console.log("Location set");
 
-    calculateVector(0, 0);
+    calculateVector(0, -100);
+    render();
 }
 
 // Set html elements to acquired Device Orientation Data
@@ -157,6 +160,5 @@ function handleOrientation(event)
 
     //xFactor = Math.cos(rotateDegrees * Math.PI / 180);
     //yFactor = Math.sin(rotateDegrees * Math.PI / 180);
-    
-    render();
+    //render();
 }
