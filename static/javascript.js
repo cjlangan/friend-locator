@@ -7,6 +7,10 @@ const rotation = document.getElementById("rotation");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
 
+// For debugging info on phones
+const console1 = document.getElementById("console1");
+const console2 = document.getElementById("console2");
+
 
 // Geolocation API options
 const options = {
@@ -53,6 +57,9 @@ function findStationaryAngle(otherLatitude, otherLongitude)
 
     let xDiff = otherLongitude - myLongitude;
     let yDiff = otherLatitude - myLatitude;
+
+    console1.innerHTML = xDiff;
+    console2.innerHTML = yDiff;
 
     let length = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
 
@@ -166,7 +173,7 @@ function handleOrientation(event)
 
     rotation.innerHTML = "Rotation: " + compass;
 
-    let angleStationary = findStationaryAngle(50, -100);
+    let angleStationary = findStationaryAngle(49.8099, -97.13507);
     let vectorAngle = angleStationary + compass;
 
     xFactor = Math.cos(vectorAngle * Math.PI / 180);
