@@ -23,21 +23,24 @@ body
     color: white;
     padding: 3px;
     margin: 10px;
-    font-size: 2rem;
+    font-size: 4vw;
     border-radius: 25px;
 }
 
 .navbar {
     background-color: var(--mgreen);
     text-align: center;
+    font-size: 3vw;
     color: white;
     padding: 1px;
-    border-radius: 25px;
+    margin: 10px;
+    border-radius: 10px;
 }
 
 .coordinates {
     display: flex;
-    gap: 80px;
+    font-size: 2vw;
+    gap: 8vw;
     justify-content: center;
     align-items: center;
 }
@@ -51,11 +54,11 @@ body
 .permission #button {
     background-color: var(--mgreen);
     color: white;
-    padding: 20px 30px;
-    border-radius: 20px;
-    border: 5px solid black;
+    padding: 3vw 4vw;
+    border-radius: 3vw;
+    border: 1vw solid black;
     cursor: pointer;
-    font-size: 30px;
+    font-size: 4vw;
     font-family: "Rubik", sans-serif;
     font-weight: 700;
     font-style: Bold;

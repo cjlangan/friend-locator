@@ -26,7 +26,7 @@ let myLongitude;
 
 // Coordinate direction of vector. Range [-1, 1]. e.g: (1, -1) is the bottom right corner.
 let xFactor = 0;
-let yFactor = 0.5;
+let yFactor = 1;
 
 main() 
 
@@ -45,6 +45,8 @@ function render()
 
 function drawVector()
 {
+    // Main line
+    ctx.lineWidth = 10;
     ctx.beginPath();
     ctx.moveTo(size / 2, size / 2);
     ctx.lineTo(size / 2 + xFactor * size / 2, size / 2 - yFactor * size / 2);
@@ -152,9 +154,9 @@ function setLocation(position)
     position_array = ["lat", myLatitude, "lon", myLongitude, "acc", coords.accuracy]
     send_post("/API/location", http_encode(position_array));
 
-    lat_html.innerHTML = "Latitude: " + myLatitude;
-    long_html.innerHTML = "Longitude: " + myLongitude;
-    acc_html.innerHTML = "Accuracy: " + coords.accuracy;
+    lat_html.innerHTML = "Latitude: " + myLatitude.toFixed(6);
+    long_html.innerHTML = "Longitude: " + myLongitude.toFixed(6);
+    acc_html.innerHTML = "Accuracy: " + coords.accuracy.toFixed(6);
     console.log("Location set");
 }
 
