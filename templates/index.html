@@ -17,15 +17,26 @@
         <h1>FRIEND LOCATOR</h1>
     </div>
 
-    <h3 id="latitude">No Data</h3>
-    <h3 id="longitude">No Data</h3>
-    <h3 id="accuracy">No Data</h3>
+    <div class="navbar">
+        <p>A simple web app that points you towards your friends.</p>
+    </div>
+
+    <div class="coordinates">
+        <h3 id="latitude">Latitude: </h3>
+        <h3 id="longitude">Longitude: </h3>
+        <h3 id="accuracy">Accuracy: </h3>
+    </div>
+
+
+    <div class="permission">
+        <button id="button" onclick='requestOrientationPermission();'> Start Finding Friends</button>
+    </div>
 
     <h3 id="rotation">No Data</h3>
 
-    <button onclick='requestOrientationPermission();'> Click Here to Give Orientation Permission, if on IOS mobile</button>
-
-    <canvas id="canvas" style="border:1px solid #000000;"></canvas>
+    <div class="canvas">
+        <canvas id="canvas"></canvas>
+    </div>
 
     <h3 id="console1">No Data</h3>
     <h3 id="console2">No Data</h3>
