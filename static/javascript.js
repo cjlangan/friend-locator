@@ -28,6 +28,9 @@ let myLongitude;
 let xFactor = 0;
 let yFactor = 1;
 
+let angle = 0;
+let deviceRotation = 0;
+
 main() 
 
 function main()
@@ -41,6 +44,36 @@ function render()
 {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawVector();
+    drawCardinalDirection();
+}
+
+function drawCardinalDirection()
+{
+    ctx.font = "10vw Rubik";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    // North
+    let xF = Math.cos((deviceRotation + 90) * Math.PI / 180);
+    let yF = Math.sin((deviceRotation + 90) * Math.PI / 180);
+    ctx.fillText("N", size / 2 + xF * size / 2 * 0.8, size / 2 - yF * size / 2 * 0.8);
+
+    // East
+    xF = Math.cos((deviceRotation + 0) * Math.PI / 180);
+    yF = Math.sin((deviceRotation + 0) * Math.PI / 180);
+    ctx.fillText("E", size / 2 + xF * size / 2 * 0.8, size / 2 - yF * size / 2 * 0.8);
+
+    // South
+    xF = Math.cos((deviceRotation - 90) * Math.PI / 180);
+    yF = Math.sin((deviceRotation - 90) * Math.PI / 180);
+    ctx.fillText("S", size / 2 + xF * size / 2 * 0.8, size / 2 - yF * size / 2 * 0.8);
+
+    // West
+    xF = Math.cos((deviceRotation - 180) * Math.PI / 180);
+    yF = Math.sin((deviceRotation - 180) * Math.PI / 180);
+    ctx.fillText("W", size / 2 + xF * size / 2 * 0.8, size / 2 - yF * size / 2 * 0.8);
+
+
 }
 
 function drawVector()
@@ -60,8 +93,6 @@ function findStationaryAngle(otherLatitude, otherLongitude)
     let xDiff = otherLongitude - myLongitude;
     let yDiff = otherLatitude - myLatitude;
 
-    console1.innerHTML = xDiff;
-    console2.innerHTML = yDiff;
 
     let length = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
 
@@ -70,7 +101,7 @@ function findStationaryAngle(otherLatitude, otherLongitude)
     let yStationary = yDiff / length;
 
     // Find angle in radians
-    let angle = Math.atan2(yStationary, xStationary) * (180 / Math.PI);
+    angle = Math.atan2(yStationary, xStationary) * (180 / Math.PI);
 
     return angle;
 }
@@ -196,6 +227,10 @@ function handleOrientation(event)
 
     let angleStationary = findStationaryAngle(49.8099, -97.13507);
     let vectorAngle = angleStationary + compass;
+    deviceRotation = compass;
+    
+    console1.innerHTML = compass;
+    console2.innerHTML = vectorAngle;
 
     xFactor = Math.cos(vectorAngle * Math.PI / 180);
     yFactor = Math.sin(vectorAngle * Math.PI / 180);
