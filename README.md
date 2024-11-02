@@ -44,3 +44,7 @@
 - We can now point to specific coordinates relative to the phones orientation 
     - We found that this worked best outside
 - Logan was able to set up the Flask server, and be able to send coordinate data to it.
+
+### Day 5 
+- Began adding some basic CSS, I realise that I am not very good at web design. 
+- We will have to decided how we want it to look more exactly later. 
