@@ -61,3 +61,8 @@
 ### Day 5 
 - Began adding some basic CSS, I realise that I am not very good at web design. 
 - We will have to decided how we want it to look more exactly later. 
+
+### Day 6
+- Created database tables. I will still need to add another table for who can track who's location, but that is yet to come.  
+- Added the path /API/users where you can POST to to create a new user. Next, I will add a login screen. Should this be a single page application? I don't know.
+
