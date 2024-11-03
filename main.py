@@ -44,7 +44,7 @@ def init_database(database_path):
 
 @app.route('/')
 def webpage():
-    return render_template('http_test.html')
+    return render_template('account_creation.html')
 
 @app.route('/API/users', methods=['POST'])
 def add_user():
