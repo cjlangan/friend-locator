@@ -199,9 +199,9 @@ function http_encode(array) {
         return undefined;
 
     let string = "";
-    for(i = 0; i < array.length / 2; i++) {
+    for(let i = 0; i < array.length; i += 2) {
         string += array[i] + "=" + array[i + 1];
-        if(i != array.length / 2 - 1)
+        if(i < array.length - 2)
             string += "&";
     }
     return string;
