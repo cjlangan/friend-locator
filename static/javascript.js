@@ -27,7 +27,10 @@ let myOrientation;
 
 // Coordinate direction of vector. Range [-1, 1]. e.g: (1, -1) is the bottom right corner.
 let xFactor = 0;
-let yFactor = 0.5;
+let yFactor = 1;
+
+let angle = 0;
+let deviceRotation = 0;
 
 main() 
 
@@ -42,10 +45,42 @@ function render()
 {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawVector();
+    drawCardinalDirection();
+}
+
+function drawCardinalDirection()
+{
+    ctx.font = "10vw Rubik";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    // North
+    let xF = Math.cos((deviceRotation + 90) * Math.PI / 180);
+    let yF = Math.sin((deviceRotation + 90) * Math.PI / 180);
+    ctx.fillText("N", size / 2 + xF * size / 2 * 0.8, size / 2 - yF * size / 2 * 0.8);
+
+    // East
+    xF = Math.cos((deviceRotation + 0) * Math.PI / 180);
+    yF = Math.sin((deviceRotation + 0) * Math.PI / 180);
+    ctx.fillText("E", size / 2 + xF * size / 2 * 0.8, size / 2 - yF * size / 2 * 0.8);
+
+    // South
+    xF = Math.cos((deviceRotation - 90) * Math.PI / 180);
+    yF = Math.sin((deviceRotation - 90) * Math.PI / 180);
+    ctx.fillText("S", size / 2 + xF * size / 2 * 0.8, size / 2 - yF * size / 2 * 0.8);
+
+    // West
+    xF = Math.cos((deviceRotation - 180) * Math.PI / 180);
+    yF = Math.sin((deviceRotation - 180) * Math.PI / 180);
+    ctx.fillText("W", size / 2 + xF * size / 2 * 0.8, size / 2 - yF * size / 2 * 0.8);
+
+
 }
 
 function drawVector()
 {
+    // Main line
+    ctx.lineWidth = 10;
     ctx.beginPath();
     ctx.moveTo(size / 2, size / 2);
     ctx.lineTo(size / 2 + xFactor * size / 2, size / 2 - yFactor * size / 2);
@@ -59,8 +94,6 @@ function findStationaryAngle(otherLatitude, otherLongitude)
     let xDiff = otherLongitude - myLongitude;
     let yDiff = otherLatitude - myLatitude;
 
-    console1.innerHTML = xDiff;
-    console2.innerHTML = yDiff;
 
     let length = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
 
@@ -69,7 +102,7 @@ function findStationaryAngle(otherLatitude, otherLongitude)
     let yStationary = yDiff / length;
 
     // Find angle in radians
-    let angle = Math.atan2(yStationary, xStationary) * (180 / Math.PI);
+    angle = Math.atan2(yStationary, xStationary) * (180 / Math.PI);
 
     return angle;
 }
@@ -153,9 +186,9 @@ function setLocation(position)
     position_array = ["lat", myLatitude, "lon", myLongitude, "acc", coords.accuracy]
     send_post("/API/location", http_encode(position_array));
 
-    lat_html.innerHTML = "Latitude: " + myLatitude;
-    long_html.innerHTML = "Longitude: " + myLongitude;
-    acc_html.innerHTML = "Accuracy: " + coords.accuracy;
+    lat_html.innerHTML = "Latitude: " + myLatitude.toFixed(6);
+    long_html.innerHTML = "Longitude: " + myLongitude.toFixed(6);
+    acc_html.innerHTML = "Accuracy: " + coords.accuracy.toFixed(6);
     console.log("Location set");
 }
 
@@ -167,9 +200,9 @@ function http_encode(array) {
         return undefined;
 
     let string = "";
-    for(i = 0; i < array.length / 2; i++) {
+    for(let i = 0; i < array.length; i += 2) {
         string += array[i] + "=" + array[i + 1];
-        if(i != array.length / 2 - 1)
+        if(i < array.length - 2)
             string += "&";
     }
     return string;
@@ -194,6 +227,10 @@ function handleOrientation(event)
     rotation.innerHTML = "Rotation: " + compass;
 
     let vectorAngle = angleStationary + compass;
+    deviceRotation = compass;
+    
+    console1.innerHTML = compass;
+    console2.innerHTML = vectorAngle;
 
     xFactor = Math.cos(vectorAngle * Math.PI / 180);
     yFactor = Math.sin(vectorAngle * Math.PI / 180);
