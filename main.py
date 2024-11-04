@@ -5,12 +5,17 @@ from flask import current_app
 from flask import request
 import signal
 import sqlite3
+import secrets
+import time
 
 DATABASE_PATH = "database.sqlite"
+TOKEN_LENGTH = 64
+TOKEN_LIFETIME_SEC = 604800 #a week
 #create the app
 app = Flask(__name__, template_folder='templates')
 app.app_context()
 database = None
+
 
 def init_database(database_path):
     db = sqlite3.connect(database_path, check_same_thread=False)
@@ -24,7 +29,7 @@ def init_database(database_path):
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS tokens(
                 user_id            INTEGER    REFERENCES users(user_id) ON DELETE CASCADE, 
-                token              BINARY(16) NOT NULL,
+                token              TEXT       NOT NULL UNIQUE,
                 token_expiry       INTEGER    NOT NULL,
                 PRIMARY KEY(user_id)
                 );
@@ -44,7 +49,52 @@ def init_database(database_path):
 
 @app.route('/')
 def webpage():
-    return render_template('account_creation.html')
+    return render_template('login.html')
+
+@app.route('/API/session', methods=['POST'])
+def create_session():
+    #TODO clean the input to stop SQL code injection.
+    username = request.form['username']
+    password = request.form['password']
+
+    #verify username and password
+    cursor = database.cursor() 
+    query_string = f"""
+        SELECT user_id FROM users
+        WHERE name     LIKE '{username}'
+        AND   password LIKE '{password}'
+    """
+    print(query_string)
+    cursor.execute(query_string)
+    results = cursor.fetchall()
+    if not results: #I LOVE THAT THE EMPTY ARRAY IN PYTHON IS FALSY!!!
+        return 'Invalid username or password'
+
+    #remove existing token if it exists 
+    user_id = results[0][0]
+    query_string = f"""
+        DELETE FROM tokens
+        WHERE user_id = '{user_id}'
+    """
+    cursor.execute(query_string)
+
+    #create a new token
+    created_token = False
+    while not created_token: 
+        token = secrets.token_urlsafe(TOKEN_LENGTH)
+        expiry = int(time.time()) + TOKEN_LIFETIME_SEC 
+        query_string = f"""
+            INSERT INTO tokens(user_id, token, token_expiry) values('{user_id}', '{token}', {expiry})
+                        """
+        try:
+            cursor.execute(query_string)
+            created_token = True
+        except(sqlite3.IntegrityError):
+            print("Generated non-unique token. Trying again")
+
+    database.commit()
+
+    return f'your token is {token}', 200
 
 @app.route('/API/users', methods=['POST'])
 def add_user():
@@ -94,4 +144,6 @@ def main():
     signal.signal(signal.SIGINT, cleanup)
 
 
+
 main()
+
