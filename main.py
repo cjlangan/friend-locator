@@ -51,6 +51,14 @@ def init_database(database_path):
 def webpage():
     return render_template('login.html')
 
+@app.route('/login-page', methods=['GET'])
+def return_login_page():
+    return render_template('login.html')
+
+@app.route('/create-account', methods=['GET'])
+def return_account_creator():
+    return render_template('account_creation.html')
+
 @app.route('/API/session', methods=['POST'])
 def create_session():
     #TODO clean the input to stop SQL code injection.
