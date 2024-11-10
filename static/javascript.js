@@ -226,7 +226,7 @@ function handleOrientation(event)
 
     rotation.innerHTML = "Rotation: " + compass;
 
-    let vectorAngle = angleStationary + compass;
+    let vectorAngle = angle + compass;
     deviceRotation = compass;
     
     console1.innerHTML = compass;
