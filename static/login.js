@@ -19,7 +19,11 @@ function send_request(event)
     let infobox = document.querySelector("#info")
     request.onreadystatechange = () => {
         if(request.readystate = XMLHttpRequest.DONE) {
-            infobox.textContent = request.response;
+            if(request.status == 200) {
+                window.location = "/homepage"; 
+            } else {
+                infobox.textContent = "Invalid username or password";
+            }
         }
     }
     request.send(payload)

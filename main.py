@@ -47,6 +47,13 @@ def init_database(database_path):
     return db
         
 
+@app.route('/homepage')
+def homepage():
+    if not valid_token(request):
+        return 'invalid or missing token', 401
+    
+    return render_template('homepage.html')
+
 @app.route('/')
 def webpage():
     return render_template('login.html')
@@ -72,11 +79,10 @@ def create_session():
         WHERE name     LIKE '{username}'
         AND   password LIKE '{password}'
     """
-    print(query_string)
     cursor.execute(query_string)
     results = cursor.fetchall()
     if not results: #I LOVE THAT THE EMPTY ARRAY IN PYTHON IS FALSY!!!
-        return 'Invalid username or password'
+        return 'Invalid username or password', 403
 
     #remove existing token if it exists 
     user_id = results[0][0]
@@ -102,7 +108,9 @@ def create_session():
 
     database.commit()
 
-    return f'your token is {token}', 200
+    resp = app.make_response(("Successfuly logged in", 200))
+    resp.set_cookie('token', f'{token}', expires = expiry, secure = True)
+    return resp
 
 @app.route('/API/users', methods=['POST'])
 def add_user():
@@ -124,7 +132,6 @@ def add_user():
     query_string = f'''
         INSERT INTO users(name, password) values('{username}', '{password}')
     '''
-    print(query_string)
     cursor.execute(query_string)
     database.commit()
 
@@ -151,6 +158,28 @@ def main():
         exit(1)
     signal.signal(signal.SIGINT, cleanup)
 
+def valid_token(request):
+    if 'token' not in request.cookies:
+        return False
+
+    session_tok = request.cookies.get('token')
+
+    cursor = database.cursor()
+    statement = '''SELECT token, token_expiry, user_id FROM tokens
+                   WHERE token = ?;
+                '''
+    cursor.execute(statement, (session_tok,) )
+    result = cursor.fetchall()
+
+    #check it's an actual token, not one made up
+    if not result:
+        return False
+
+    #check if it has expried
+    if result[0][1] <= int(time.time()):
+        return False
+
+    return True
 
 
 main()
