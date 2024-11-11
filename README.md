@@ -4,7 +4,6 @@
 
 ## Currently in Development
 
-<<<<<<< HEAD
 ## Resources 
 
 - [Device Orientation](https://developer.mozilla.org/en-US/docs/Web/API/Window/deviceorientation_event)
@@ -15,8 +14,6 @@
 - python3-flask
 
 
-=======
->>>>>>> 90dc6950329558a3b704cc4fb4a7a8383447dab4
 ### Day 1 
 
 - Implemented basic geolocation request with auto updating 
