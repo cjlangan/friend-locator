@@ -30,6 +30,9 @@ let yFactor = 1;
 let angle = 0;
 let deviceRotation = 0;
 
+let friend = "";
+let isFriend = false;
+
 main() 
 
 function main()
@@ -170,8 +173,28 @@ function isIOS()
     return /iPhone|iPad|iPod/i.test(navigator.userAgent || navigator.vendor || (window.opera && opera.toString() === `[object Opera]`));
 }
 
+function checkForFriend()
+{
+    console.log("Checking for input");
+
+    // Process textbox username input 
+    friend = document.getElementById('input').value;
+    if(friend != "")
+    {
+        isFriend = true;
+        loop();
+        console.log("Friend is " + friend);
+    }
+    else
+    {
+        isFriend = false;
+    }
+}
+
 function requestOrientationPermission()
 {
+    checkForFriend();
+
     console.log("Device Orientation Requested...");
 
     if(isIOS())
@@ -185,6 +208,7 @@ function requestOrientationPermission()
             {
                 console.log("Permission Granted");
                 window.addEventListener("deviceorientation", handleOrientation, true); 
+
             }
         })
         .catch(console.error)
@@ -194,9 +218,6 @@ function requestOrientationPermission()
         console.log("Device is not IOS mobile. Orinetation can be obtained.");
         window.addEventListener("deviceorientation", handleOrientation, true); 
     }
-
-    // Test for getting frined location:
-    getFriendLocation("clangan");
 }
 
 // Update html to reflect coordinates
@@ -268,11 +289,22 @@ async function getFriendLocation(username)
 
         console.log(friend_location);
 
-        //findStationaryAngle(otherLatitude, otherLongitude);
+        findStationaryAngle(friend_location.latitude, friend_location.longitude);
     }
     catch(e)
     {
         console.error(e)
+    }
+}
+
+// Retrive friend location on an interval basis
+function loop()
+{
+    if(isFriend)
+    {
+        console.log("Retrieving Friend location.");
+        getFriendLocation(friend);
+        setTimeout(loop, 5000); // 5 seconds
     }
 }
 
@@ -284,8 +316,7 @@ function handleOrientation(event)
 
     let compass = event.webkitCompassHeading || Math.abs(event.alpha - 360);
 
-    findStationaryAngle(100, -99);
-
+    
     let vectorAngle = angle + compass;
     deviceRotation = compass;
 

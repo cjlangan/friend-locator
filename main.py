@@ -226,6 +226,10 @@ def valid_token(request):
 
     session_tok = request.cookies.get('token')
 
+    if not session_tok:
+        print("No token provided.")
+        return False
+
     cursor = database.cursor()
     statement = '''SELECT token, token_expiry, user_id FROM tokens
                    WHERE token = ?;
@@ -234,7 +238,7 @@ def valid_token(request):
     result = cursor.fetchall()
 
     #check it's an actual token, not one made up
-    if not result:
+    if result is None:
         return False
 
     #check if it has expried
