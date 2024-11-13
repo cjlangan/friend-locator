@@ -2,7 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask import url_for 
 from flask import current_app
-from flask import request
+from flask import request, redirect, url_for
 import signal
 import sqlite3
 import secrets
@@ -50,7 +50,8 @@ def init_database(database_path):
 @app.route('/homepage')
 def homepage():
     if not valid_token(request):
-        return 'invalid or missing token', 401
+        return redirect(url_for('webpage'))
+        #return 'invalid or missing token', 401
     
     return render_template('homepage.html')
 
