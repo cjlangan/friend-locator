@@ -7,24 +7,56 @@
     --dbrown: rgb(156, 102, 21);
 }
 
-body 
-{
+body {
     font-family: "Rubik", sans-serif;
     font-weight: 700;
     font-style: Bold;
-    background-color: var(--lgreen);
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("mountains.png");
+    background-position: 50% 20%;
+    filter: blur(2px);
+    z-index: -1;
+}
+
+.topnav {
+    background-color: white;
+    background-color: 5;
+    display: flex;
+    text-align: center; 
+    padding: 4vw; 
+    font-size: 3vw;
+    color: black;
+    gap: 10vw;
     justify-content: center;
     align-items: center;
 }
 
 .header {
-    background-color: var(--dgreen);
     text-align: center;
     color: white;
     padding: 3px;
-    margin: 10px;
+    margin: 3px;
     font-size: 4vw;
-    border-radius: 25px;
+    text-shadow: 
+        -3px -3px black,
+       3px -3px black,
+        -3px  3px black,
+         3px  3px black,
+        -3px  0px black,
+         3px  0px black,
+         0px  3px black,
+         0px -3px black;
 }
 
 .navbar {
