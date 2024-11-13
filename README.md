@@ -13,6 +13,17 @@
 - python3-mysql.connector
 - python3-flask
 
+## TODO 
+
+- Add info for user to allow location on mobile
+- Create a textbox submission to add a friend by their username
+    - It is probably most simplest to (for now) have the website be like a queuing system: 
+        - You submit a username of location you want to see.
+        - If they also submit you, youre done.
+        - No keeping track of a friends list, just on a per use basis.
+    - Once a match is found, look up your partners geolocation data in the database and set that to what your compass should point towards.
+    - It *should* be as simple as that.
+
 
 ### Day 1 
 
