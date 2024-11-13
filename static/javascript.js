@@ -188,6 +188,8 @@ function checkForFriend()
     else
     {
         isFriend = false;
+        console1.innerHTML = "";
+        console2.innerHTML = "";
     }
 }
 
@@ -302,9 +304,9 @@ function loop()
 {
     if(isFriend)
     {
-        console.log("Retrieving Friend location.");
+        console.log("Retrieving " + friend + " location.");
         getFriendLocation(friend);
-        setTimeout(loop, 5000); // 5 seconds
+        setTimeout(loop, 1000); // 5 seconds
     }
 }
 
