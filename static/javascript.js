@@ -196,7 +196,7 @@ function requestOrientationPermission()
     }
 
     // Test for getting frined location:
-    getFriendLocation("jimbob");
+    getFriendLocation("clangan");
 }
 
 // Update html to reflect coordinates
@@ -250,7 +250,7 @@ async function getFriendLocation(username)
 {
     try 
     {
-        const response = await fetch(`/API/locations/${username}`, {
+        const response = await fetch(`/API/location/${username}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -263,7 +263,10 @@ async function getFriendLocation(username)
         }
 
         const friend_location = await response.json();
-        console1.innerHTML = locations;
+        console1.innerHTML = `${friend_location.latitude}`;
+        console2.innerHTML = `${friend_location.longitude}`;
+
+        console.log(friend_location);
 
         //findStationaryAngle(otherLatitude, otherLongitude);
     }

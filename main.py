@@ -2,7 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask import url_for 
 from flask import current_app
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, jsonify
 import signal
 import sqlite3
 import secrets
@@ -95,7 +95,7 @@ def get_user_id_from_token(token):
     return result[0]
 
 
-@app.route('/API/locations/<username>', methods=['GET'])
+@app.route('/API/location/<username>', methods=['GET'])
 def get_friend_location(username):
     if not valid_token(request):
         return 'invalid of missing token', 401
