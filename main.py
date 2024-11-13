@@ -59,6 +59,71 @@ def homepage():
 def webpage():
     return render_template('login.html')
 
+@app.route('/API/location', methods=['POST'])
+def set_location():
+    if not valid_token(request):
+        return 'invalid of missing token', 401
+
+    user_id = get_user_id_from_token(request.cookies.get('token'))
+
+    latitude = request.form['lat']
+    longitude = request.form['lon']
+
+    if latitude is None or longitude is None:
+        return 'Latitude and Longitude must be provided', 400
+
+    cursor = database.cursor()
+    cursor.execute('''
+        INSERT OR REPLACE INTO locations (user_id, latitude, longitude)
+        VALUES(?, ?, ?)
+    ''', (user_id, latitude, longitude))
+
+    database.commit() 
+
+    return 'Location updated successfuly', 200
+
+def get_user_id_from_token(token):
+    cursor = database.cursor() 
+    cursor.execute('''
+        SELECT user_id FROM tokens WHERE token = ? AND token_expiry > ?
+    ''', (token, int(time.time())))
+    result = cursor.fetchone() 
+
+    if result is None:
+        print("Invalid or missing token")
+
+    return result[0]
+
+
+@app.route('/API/locations/<username>', methods=['GET'])
+def get_friend_location(username):
+    if not valid_token(request):
+        return 'invalid of missing token', 401
+
+    cursor = database.cursor()
+
+    query_string = '''
+        SELECT users.name, locations.latitude, locations.longitude 
+        FROM locations 
+        JOIN users ON locations.user_id = users.user_id
+        WHERE users.name = ?;
+    '''
+
+    cursor.execute(query_string, (username,))
+    result = cursor.fetchone()
+
+    if result is None:
+        return "User not found or location not availablea", 404
+
+    user_location = {
+            "username": result[0],
+            "latitude": result[1],
+            "longitude": result[2],
+    }
+
+    return jsonify(user_location), 200
+
+
 @app.route('/login-page', methods=['GET'])
 def return_login_page():
     return render_template('login.html')
@@ -141,10 +206,6 @@ def add_user():
 
     
 
-@app.route('/API/location', methods=['POST'])
-def print_location():
-    # print(request.form['lat'])
-    return 'OK'
 
 def cleanup(signum, frame):
     database.close()

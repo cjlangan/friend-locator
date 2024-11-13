@@ -194,6 +194,9 @@ function requestOrientationPermission()
         console.log("Device is not IOS mobile. Orinetation can be obtained.");
         window.addEventListener("deviceorientation", handleOrientation, true); 
     }
+
+    // Test for getting frined location:
+    getFriendLocation("jimbob");
 }
 
 // Update html to reflect coordinates
@@ -242,6 +245,34 @@ function send_post(location, payload)
     request.send(payload)
 }
 
+// Function to retrieve you frinds location 
+async function getFriendLocation(username)
+{
+    try 
+    {
+        const response = await fetch(`/API/locations/${username}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if(!response.ok) {
+            console.error("Failed to get friend location");
+            return;
+        }
+
+        const friend_location = await response.json();
+        console1.innerHTML = locations;
+
+        //findStationaryAngle(otherLatitude, otherLongitude);
+    }
+    catch(e)
+    {
+        console.error(e)
+    }
+}
+
 
 // Set html elements to acquired Device Orientation Data
 function handleOrientation(event)
@@ -250,11 +281,10 @@ function handleOrientation(event)
 
     let compass = event.webkitCompassHeading || Math.abs(event.alpha - 360);
 
+    findStationaryAngle(100, -99);
+
     let vectorAngle = angle + compass;
     deviceRotation = compass;
-    
-    console1.innerHTML = compass;
-    console2.innerHTML = vectorAngle;
 
     xFactor = Math.cos(vectorAngle * Math.PI / 180);
     yFactor = Math.sin(vectorAngle * Math.PI / 180);
