@@ -45,9 +45,9 @@ body {
 .header {
     text-align: center;
     color: white;
-    padding: 3px;
-    margin: 3px;
     font-size: 4vw;
+    margin: 0;
+    padding: 0;
     text-shadow: 
         -3px -3px black,
        3px -3px black,
@@ -60,21 +60,16 @@ body {
 }
 
 .navbar {
-    background-color: var(--mgreen);
     text-align: center;
     font-size: 3vw;
     color: white;
-    padding: 1px;
-    margin: 10px;
-    border-radius: 10px;
-}
-
-.coordinates {
-    display: flex;
-    font-size: 2vw;
-    gap: 8vw;
-    justify-content: center;
-    align-items: center;
+    padding: 0;
+    margin: 0;
+    text-shadow: 
+        -1px -1px black,
+         1px -1px black,
+        -1px  1px black,
+         1px  1px black;
 }
 
 .permission {
@@ -84,17 +79,35 @@ body {
 }
 
 .permission #button {
-    background-color: var(--mgreen);
     color: white;
+    background: linear-gradient(to right, #bc4df2, #4df2f2);
     padding: 3vw 4vw;
-    border-radius: 3vw;
+    border-radius: 2vw;
     border: 1vw solid black;
     cursor: pointer;
     font-size: 4vw;
     font-family: "Rubik", sans-serif;
     font-weight: 700;
     font-style: Bold;
+    text-shadow: 
+        -1px -1px black,
+         1px -1px black,
+        -1px  1px black,
+         1px  1px black;
+}
 
+.coordinates {
+    color: white;
+    display: flex;
+    font-size: 2vw;
+    gap: 8vw;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 
+        -1px -1px black,
+         1px -1px black,
+        -1px  1px black,
+         1px  1px black;
 }
 
 .canvas {
@@ -106,5 +119,6 @@ body {
 .canvas #canvas {
     border: 5px solid black;
     border-radius: 50%;
-    background-color: var(--lbrown);
+    background-image: url("map.jpg");
+    background-position: 30% 30%;
 }

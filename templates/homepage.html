@@ -29,18 +29,15 @@
         <p>A simple web app that points you towards your friends.</p>
     </div>
 
+    <div class="permission">
+        <button id="button" onclick='requestOrientationPermission();'> Start Finding Friends</button>
+    </div>
+
     <div class="coordinates">
         <h3 id="latitude">Latitude: </h3>
         <h3 id="longitude">Longitude: </h3>
         <h3 id="accuracy">Accuracy: </h3>
     </div>
-
-
-    <div class="permission">
-        <button id="button" onclick='requestOrientationPermission();'> Start Finding Friends</button>
-    </div>
-
-    <h3 id="rotation">No Data</h3>
 
     <div class="canvas">
         <canvas id="canvas"></canvas>

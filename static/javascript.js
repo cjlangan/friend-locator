@@ -2,8 +2,6 @@ const lat_html = document.getElementById("latitude");
 const long_html = document.getElementById("longitude");
 const acc_html = document.getElementById("accuracy");
 
-const rotation = document.getElementById("rotation");
-
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
 
@@ -44,8 +42,8 @@ function main()
 function render()
 {
     ctx.clearRect(0,0, canvas.width, canvas.height);
-    drawVector();
     drawCardinalDirection();
+    drawVector();
 }
 
 function drawCardinalDirection()
@@ -73,17 +71,45 @@ function drawCardinalDirection()
     xF = Math.cos((deviceRotation - 180) * Math.PI / 180);
     yF = Math.sin((deviceRotation - 180) * Math.PI / 180);
     ctx.fillText("W", size / 2 + xF * size / 2 * 0.8, size / 2 - yF * size / 2 * 0.8);
-
-
 }
 
 function drawVector()
 {
+    xFactor = 0.9 * xFactor;
+    yFactor = 0.9 * yFactor;
+
     // Main line
+    ctx.strokeStyle = "red";
     ctx.lineWidth = 10;
     ctx.beginPath();
     ctx.moveTo(size / 2, size / 2);
     ctx.lineTo(size / 2 + xFactor * size / 2, size / 2 - yFactor * size / 2);
+    ctx.stroke();
+
+
+    // Calculate the angle of the line (for arrowhead direction)
+    const arrowAngle = Math.atan2(-yFactor, xFactor); // Negative yFactor because canvas Y axis is inverted
+
+    // Draw the arrowhead
+    const headLength = 20; // Length of the arrowhead
+    const headAngle = Math.PI / 6; // Angle of the arrowhead
+
+    // Right side of the arrowhead
+    ctx.beginPath();
+    ctx.moveTo(size / 2 + xFactor * size / 2, size / 2 - yFactor * size / 2);
+    ctx.lineTo(
+        size / 2 + xFactor * size / 2 - headLength * Math.cos(arrowAngle - headAngle),
+        size / 2 - yFactor * size / 2 - headLength * Math.sin(arrowAngle - headAngle)
+    );
+    ctx.stroke();
+
+    // Left side of the arrowhead
+    ctx.beginPath();
+    ctx.moveTo(size / 2 + xFactor * size / 2, size / 2 - yFactor * size / 2);
+    ctx.lineTo(
+        size / 2 + xFactor * size / 2 - headLength * Math.cos(arrowAngle + headAngle),
+        size / 2 - yFactor * size / 2 - headLength * Math.sin(arrowAngle + headAngle)
+    );
     ctx.stroke();
 }
 
@@ -223,8 +249,6 @@ function handleOrientation(event)
     console.log("Orientation Received.")
 
     let compass = event.webkitCompassHeading || Math.abs(event.alpha - 360);
-
-    rotation.innerHTML = "Rotation: " + compass;
 
     let vectorAngle = angle + compass;
     deviceRotation = compass;
