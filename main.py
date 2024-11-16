@@ -98,7 +98,7 @@ def get_user_id_from_token(token):
 @app.route('/API/location/<username>', methods=['GET'])
 def get_friend_location(username):
     if not valid_token(request):
-        return 'invalid of missing token', 401
+        return 'invalid or missing token', 401
 
     cursor = database.cursor()
 
@@ -143,7 +143,7 @@ def create_session():
     query_string = f"""
         SELECT user_id FROM users
         WHERE name     LIKE '{username}'
-        AND   password LIKE '{password}'
+        AND   password =    '{password}'
     """
     cursor.execute(query_string)
     results = cursor.fetchall()
@@ -238,8 +238,9 @@ def valid_token(request):
     result = cursor.fetchall()
 
     #check it's an actual token, not one made up
-    if result is None:
+    if not result or len(result) == 0 or len(result[0]) == 0:
         return False
+
 
     #check if it has expried
     if result[0][1] <= int(time.time()):
