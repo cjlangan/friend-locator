@@ -2,6 +2,12 @@ import sqlite3
 import time
 import secrets
 
+class Token:
+    def __init__(self, token, expiry):
+        self.token = token
+        self.expiry = expiry
+
+
 class Database:
 
     def __init__(self, database_path, token_length=64):
@@ -68,6 +74,21 @@ class Database:
         user_id = result[0]
         return Client(self.db, user_id)
 
+    def get_client_from_name(self, username):
+        cursor = self.db.cursor() 
+        query_string = '''
+            SELECT user_id FROM users
+            WHERE name     LIKE ?
+        '''
+        cursor.execute(query_string, (username,) )
+        result = cursor.fetchone()
+
+        if not result: 
+            return None
+
+        user_id = result[0]
+        return Client(self.db, user_id)
+
 
     def get_client_from_token(self, token):
         cursor = self.db.cursor() 
@@ -85,6 +106,9 @@ class Database:
 
         user_id = result[0]
         return Client(self.db, user_id)
+
+    def close(self):
+        self.db.close()
 
         
 class Client:
@@ -109,6 +133,23 @@ class Client:
         expiry = result[0]
         return expiry > int(time.time())
 
+    # returns a tuple of the token and the token's expiry date
+    def get_token(self):
+        cursor = self.db.cursor()
+        query_string = '''
+            SELECT token, token_expiry FROM tokens
+            WHERE user_id = ?
+        '''
+        cursor.execute(query_string, (self.user_id,) )
+        
+        results= cursor.fetchone()
+        if results is None:
+            return None
+
+        token = results[0]
+        expiry = results[1]
+
+        return Token(token, expiry)
 
     def generate_new_token(self, token_length=64, lifetime_s=604800):
         cursor = self.db.cursor()
@@ -129,9 +170,9 @@ class Client:
                 pass
 
         self.db.commit()
-        return new_token
+        return Token(new_token, expiry)
 
-    def set_location(self, lon, lat):
+    def set_location(self, lat, lon):
         cursor = self.db.cursor()
         query_string = '''
             INSERT OR REPLACE INTO locations (user_id, latitude, longitude)
@@ -182,15 +223,10 @@ class Client:
             print(f"lon: {location[1]}")
 
 db = Database("database.sqlite")
-
-# client = db.get_client_from_token("WW8-6a9i0bbj5IlqClzgXhklxwCcijPkEaJU3qB7xYlJzijJy-sUqLuiTx11vPhLbst72R3PBIianHueqZ5eGQ")
-# print(client.has_valid_token())
-# print(client.generate_new_token())
-
-client = db.create_client("laptop29", "laptop")
-if client is not None:
-    client.generate_new_token()
-    client.set_location(100, 200)
-    client.print()
+user = db.get_client_from_credentials("logan", "aoeu")
+if user is None:
+    print("User does not exist")
 else:
-    print("Clint is none.")
+    user.print()
+
+

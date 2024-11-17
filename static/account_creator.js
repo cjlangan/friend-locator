@@ -34,7 +34,7 @@ function send_request(event)
             if(request.status == 200) {
                 window.location = "/login-page"; 
             } else {
-                infobox.textContent = "Could not create account";
+                infobox.textContent = request.responseText;
             }
         }
     }
