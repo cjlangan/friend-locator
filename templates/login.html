@@ -7,17 +7,22 @@
     <link rel="stylesheet" href="static/style.css">
 
 </head>
-    <h1> Login </h1>
-    <body>
-        <p> Username: </p>
-        <input id="username" type="text">
-        <p> Password : </p>
-        <input id="password" type="text"> 
-        <br>
-        <button id="login_btn"> <p> Login </p> </button>
-        <a href="/create-account">
-            <p> Create account </p>
-        </a>
+
+    <body style="height: 80vh; width: 100vw; display: flex; align-items: center"> 
+        <div class="form_container"> 
+            <h1> Login to Friend Locator </h1>
+            <p> Username </p>
+            <input id="username" type="text">
+            <p> Password </p>
+            <input id="password" type="text"> 
+            <br>
+            <button style="margin-top: 3vh" id="login_btn"> Login </button>
+            <p> Don't have an account?
+            <a href="/create-account">
+                 create one
+            </a>
+            .
+            </p>
         <div id="info">
         </div>
     </body>

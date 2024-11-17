@@ -7,23 +7,23 @@
     <link rel="stylesheet" href="static/style.css">
 
 </head>
-    <body>
+    <body style="height: 80vh; width: 100vw; display: flex; align-items: center"> 
+        <div class="form_container"> 
+            <h1> Create account </h1>
+            <p> Username</p>
+            <input id="username" type="text" >
+            <p> Password</p>
+            <input id="password" type="text" > 
+            <button style="margin-top: 3vh" id="create_account_bttn" > Create account </button>
+            <p style="margin-top: 4vh"> Already have an account? 
+                <a href="/login-page">
+                    Login
+                </a>
+            </p>
+            <div id="info">
+            </div>
 
-        <h1> Create account </h1>
-        <p> Username: </p>
-        <input id="username" type="text" >
-        <p> Password : </p>
-        <input id="password" type="text" > 
-        <br>
-        <button id="create_account_bttn" > Create account </button>
-        <br>
-
-        <a href="/login-page">
-            Login
-        </a>
-    <div id="info">
-    </div>
-
+        </div>
     </body>
     <script src="static/account_creator.js"></script>
 </html>

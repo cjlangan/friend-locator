@@ -2,6 +2,18 @@ function main()
 {
     let button = document.querySelector("#create_account_bttn")
     button.addEventListener('click', (event) => send_request())
+
+    submit_if_enter = function (e) {
+        if(e.key == 'Enter') {
+            send_request()
+        }
+    }
+
+    let username = document.querySelector("#username")
+    let password = document.querySelector("#password")
+    username.addEventListener('keypress', submit_if_enter)
+    password.addEventListener('keypress', submit_if_enter)
+
 }
 
 function send_request(event) 
