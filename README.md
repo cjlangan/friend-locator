@@ -12,21 +12,20 @@
     - ON IOS: 
         - Head to settings > Privacy & Security > Location Services > (Choose you browser, i.e. Safari) > Select "While Using the App"
 
-2. Head to <insert domain link here>, create and account, and log in. 
+2. Head to _insert domain link here_, create an account, and log in. 
     - Have a friend (different device) do the same
 
-3. Enter eachother usernames into the search field.
+3. Enter eachothers usernames into the search field.
 
 4. That's it! 
 
 ## TODO 
 
 - Add info for user to allow location on mobile
-- Add better way to stop tracking a friend.
-- Add better / more code comments.
-- Add two-way authentication for a friend connection.
 - Get a link to host the webapp on. Maybe? Just gotta be able to run on aviary servers and get a https connection.
 - submit project in the form of a GitHub repository to [Google Forms](https://bit.ly/CUSECProjectSubmission)
+- Add better way to stop tracking a friend.
+- Add two-way authentication for a friend connection.
 
 ### Dependencies
 - python3-mysql.connector

@@ -167,7 +167,14 @@ function getLocation()
 // For the geolocation parameter, I think its necessary?
 function error(err)
 {
-    console.error(`ERROR(${err.code}): ${err.message}`);
+    if(err.code === 1) 
+    {
+        alert("To Enable Location: Go to Settings > Privacy & Security > Location Services > (your browser) > Select 'While Using the App'");
+    }
+    else
+    {
+        console.error(`ERROR(${err.code}): ${err.message}`);
+    }
 }
 
 // Checks if a device is IOS
