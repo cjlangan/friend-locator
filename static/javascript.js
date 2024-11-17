@@ -38,6 +38,7 @@ function main()
     render();
 }
 
+// Draws the vector and coordinates on the canavs 
 function render()
 {
     ctx.clearRect(0,0, canvas.width, canvas.height);
@@ -112,6 +113,7 @@ function drawVector()
     ctx.stroke();
 }
 
+// Given someone else latitude and longitude, find the angle the vector should point at 
 function findStationaryAngle(otherLatitude, otherLongitude)
 {
     console.log("Determining Vector...")
@@ -129,6 +131,7 @@ function findStationaryAngle(otherLatitude, otherLongitude)
     // Find angle in radians
     angle = Math.atan2(yStationary, xStationary) * (180 / Math.PI);
 
+    // Ensure angle it positive
     if(angle < 0)
     {
         angle += 360;
@@ -137,7 +140,7 @@ function findStationaryAngle(otherLatitude, otherLongitude)
     return angle;
 }
 
-
+// Adjust the canvas size based on resizing of window
 function resizeCanvas()
 {
     size = Math.round(0.8 * Math.min(window.innerHeight, window.innerWidth) / 8) * 8;
@@ -147,6 +150,7 @@ function resizeCanvas()
     render();
 }
 
+// Use geolocation API to get coordinates
 function getLocation()
 {
     // Get location coordinates and send to setLocation function
@@ -166,6 +170,7 @@ function error(err)
     console.error(`ERROR(${err.code}): ${err.message}`);
 }
 
+// Checks if a device is IOS
 function isIOS()
 {
     if (typeof window === `undefined` || typeof navigator === `undefined`) return false;
@@ -173,6 +178,7 @@ function isIOS()
     return /iPhone|iPad|iPod/i.test(navigator.userAgent || navigator.vendor || (window.opera && opera.toString() === `[object Opera]`));
 }
 
+// Checks if a friend has been entered as input
 function checkForFriend()
 {
     console.log("Checking for input");
@@ -191,6 +197,8 @@ function checkForFriend()
     }
 }
 
+// The Submit Button
+// Request orientation permission and then also checks for a frined
 function requestOrientationPermission()
 {
     checkForFriend();
@@ -220,10 +228,11 @@ function requestOrientationPermission()
     }
 }
 
-// Update html to reflect coordinates
+// Update html to reflect coordinates and send coordinates to the server
 function setLocation(position)
 {
     coords = position.coords;
+
     //sometimes the event triggers without the latitude or longitude changing.
     if(position.coords.latitude == myLatitude &&
        position.coords.longitude == myLongitude)
@@ -258,6 +267,7 @@ function http_encode(array) {
     return string;
 }
 
+// Function to simplify the process of sending a post request to the server
 function send_post(location, payload)
 {
     request = new XMLHttpRequest();     
@@ -266,7 +276,7 @@ function send_post(location, payload)
     request.send(payload)
 }
 
-// Function to retrieve you frinds location 
+// Function to retrieve your frinds location 
 async function getFriendLocation(username)
 {
     try 
@@ -287,6 +297,7 @@ async function getFriendLocation(username)
 
         console.log(friend_location);
 
+        // Determine angle relative to you
         findStationaryAngle(friend_location.latitude, friend_location.longitude);
     }
     catch(e)
@@ -302,7 +313,7 @@ function loop()
     {
         console.log("Retrieving " + friend + " location.");
         getFriendLocation(friend);
-        setTimeout(loop, 1000); // 1 seconds
+        setTimeout(loop, 500); // 0.5 seconds
     }
 }
 
@@ -313,11 +324,12 @@ function handleOrientation(event)
     console.log("Orientation Received.")
 
     let compass = event.webkitCompassHeading; // || Math.abs(event.alpha);
-
     
+    // Angle of vector depends on orientation AND your frineds angle relative to you
     let vectorAngle = angle + compass;
     deviceRotation = compass;
 
+    // Determien vector coordinates based of angle.
     xFactor = Math.cos(vectorAngle * Math.PI / 180);
     yFactor = Math.sin(vectorAngle * Math.PI / 180);
 

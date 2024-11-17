@@ -1,10 +1,23 @@
 # Friend Locator 
 
-#### A project to locate you friends using a web app! 
+#### A project to locate your friends using a web app! 
 
 ### Project Video 
 
 [![Watch the video](https://img.youtube.com/vi/WxWmKGfQXFY/hqdefault.jpg)](https://youtu.be/WxWmKGfQXFY)
+
+## Usage: 
+
+1. Ensure your browser has location permission 
+    - ON IOS: 
+        - Head to settings > Privacy & Security > Location Services > (Choose you browser, i.e. Safari) > Select "While Using the App"
+
+2. Head to <insert domain link here>, create and account, and log in. 
+    - Have a friend (different device) do the same
+
+3. Enter eachother usernames into the search field.
+
+4. That's it! 
 
 ## TODO 
 
@@ -75,3 +88,6 @@
 - Added ability to retrieve other users locations from the database and point to their location!
 - Changes CSS from the ugly plain colors to better images and other stuff 
 - Brought in discord information to get stronger idea of how we should be finishing the project in the next coming few days
+
+### Day 8 
+- Made video, fine-tuned backend database management, ready to send to production
