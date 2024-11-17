@@ -6,7 +6,6 @@
 
 [![Watch the video](https://img.youtube.com/vi/WxWmKGfQXFY/hqdefault.jpg)](https://youtu.be/WxWmKGfQXFY)
 
-
 ## TODO 
 
 - Add info for user to allow location on mobile

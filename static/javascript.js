@@ -5,11 +5,6 @@ const acc_html = document.getElementById("accuracy");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
 
-// For debugging info on phones
-const console1 = document.getElementById("console1");
-const console2 = document.getElementById("console2");
-
-
 // Geolocation API options
 const options = {
     enableHighAccuracy: true,
@@ -193,8 +188,6 @@ function checkForFriend()
     else
     {
         isFriend = false;
-        console1.innerHTML = "";
-        console2.innerHTML = "";
     }
 }
 
@@ -291,8 +284,6 @@ async function getFriendLocation(username)
         }
 
         const friend_location = await response.json();
-        console1.innerHTML = `${friend_location.latitude}`;
-        console2.innerHTML = `${friend_location.longitude}`;
 
         console.log(friend_location);
 
