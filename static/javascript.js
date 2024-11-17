@@ -37,6 +37,7 @@ main()
 
 function main()
 {
+    window.addEventListener('resize', resizeCanvas);
     getLocation();
     resizeCanvas();
     render();
@@ -133,10 +134,14 @@ function findStationaryAngle(otherLatitude, otherLongitude)
     // Find angle in radians
     angle = Math.atan2(yStationary, xStationary) * (180 / Math.PI);
 
+    if(angle < 0)
+    {
+        angle += 360;
+    }
+
     return angle;
 }
 
-window.addEventListener('resize', resizeCanvas);
 
 function resizeCanvas()
 {
@@ -306,7 +311,7 @@ function loop()
     {
         console.log("Retrieving " + friend + " location.");
         getFriendLocation(friend);
-        setTimeout(loop, 1000); // 5 seconds
+        setTimeout(loop, 1000); // 1 seconds
     }
 }
 
@@ -316,7 +321,7 @@ function handleOrientation(event)
 {
     console.log("Orientation Received.")
 
-    let compass = event.webkitCompassHeading || Math.abs(event.alpha - 360);
+    let compass = event.webkitCompassHeading; // || Math.abs(event.alpha);
 
     
     let vectorAngle = angle + compass;

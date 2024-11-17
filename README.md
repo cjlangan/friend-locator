@@ -18,9 +18,12 @@
 ## TODO 
 
 - Add info for user to allow location on mobile
-- Get a link to host the webapp on. 
+- Add better way to stop tracking a friend.
+- Add better / more code comments.
+- Add two-way authentication for a friend connection.
+- Get a link to host the webapp on. Maybe? Just gotta be able to run on aviary servers and get a https connection.
 - maximum 5-minute video presentation (.mp4 format) about our project 
-- submit project in the form of a GitHub repository to ![Google Forms](https://bit.ly/CUSECProjectSubmission)
+- submit project in the form of a GitHub repository to [Google Forms](https://bit.ly/CUSECProjectSubmission)
 
 ## Info From Discord: 
 
