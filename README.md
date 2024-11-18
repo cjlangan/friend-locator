@@ -6,6 +6,10 @@
 
 [![Watch the video](https://img.youtube.com/vi/WxWmKGfQXFY/hqdefault.jpg)](https://youtu.be/WxWmKGfQXFY)
 
+## Project link 
+
+You can temporarily view the website hosted [here](https://aviary.cs.umanitoba.ca:5000)
+
 ## Usage: 
 
 1. Ensure your browser has location permission 
@@ -21,9 +25,6 @@
 
 ## TODO 
 
-- Add info for user to allow location on mobile
-- Get a link to host the webapp on. Maybe? Just gotta be able to run on aviary servers and get a https connection.
-- submit project in the form of a GitHub repository to [Google Forms](https://bit.ly/CUSECProjectSubmission)
 - Add better way to stop tracking a friend.
 - Add two-way authentication for a friend connection.
 
