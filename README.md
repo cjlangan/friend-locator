@@ -8,12 +8,7 @@
 
 ## Project link 
 
-~~You can temporarily view the website hosted [here](https://aviary.cs.umanitoba.ca:5000)~~
-
-The aviary link was taken down, and for some reason I can't boot it back up, so please navigate to the link hosted on my home server instead:
-
 [https://friend-locator.duckdns.org](https://friend-locator.duckdns.org)
-
 
 ## Usage: 
 
@@ -21,12 +16,13 @@ The aviary link was taken down, and for some reason I can't boot it back up, so 
     - ON IOS: 
         - Head to settings > Privacy & Security > Location Services > (Choose you browser, i.e. Safari) > Select "While Using the App"
 
-2. Head to _insert domain link here_, create an account, and log in. 
+2. Head to [the website](https://friend-locator.duckdns.org), create an account, and log in. 
     - Have a friend (different device) do the same
 
 3. Enter eachothers usernames into the search field.
 
-4. That's it! 
+4. That's it!
+    - Your compasses will now direct you and your friend towards eachother until you are in a close enough proximity to eachother to find manually (~5 meters) 
 
 ## TODO 
 
