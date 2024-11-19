@@ -8,7 +8,11 @@
 
 ## Project link 
 
-You can temporarily view the website hosted [here](https://130.179.28.121:5000)
+~~You can temporarily view the website hosted [here](https://aviary.cs.umanitoba.ca:5000)~~
+
+The aviary link was taken down, and for some reason I can't boot it back up, so please navigate to the link hosted on my home server instead:
+
+[https://friend-locator.duckdns.org](https://friend-locator.duckdns.org)
 
 
 ## Usage: 
