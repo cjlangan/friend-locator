@@ -8,7 +8,8 @@
 
 ## Project link 
 
-You can temporarily view the website hosted [here](https://aviary.cs.umanitoba.ca:5000)
+You can temporarily view the website hosted [here](https://130.179.28.121:5000)
+
 
 ## Usage: 
 
