@@ -1,6 +1,7 @@
 const lat_html = document.getElementById("latitude");
 const long_html = document.getElementById("longitude");
 const acc_html = document.getElementById("accuracy");
+const infotext = document.getElementById("infotext");
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
@@ -196,10 +197,11 @@ function checkForFriend()
     {
         isFriend = true;
         loop();
-        console.log("Friend is " + friend);
+        console.log("Checking for " + friend + " in database");
     }
     else
     {
+        console.log("No username was entered.")
         isFriend = false;
     }
 }
@@ -296,7 +298,9 @@ async function getFriendLocation(username)
         });
 
         if(!response.ok) {
-            console.error("Failed to get friend location");
+            console.log("Failed to get friend location. Incorrect username.");
+            infotext.innerHTML = "Username " + friend + " does not exist";
+            isFriend = false;
             return;
         }
 
@@ -319,6 +323,7 @@ function loop()
     if(isFriend)
     {
         console.log("Retrieving " + friend + " location.");
+        infotext.innerHTML = "Locating " + friend;
         getFriendLocation(friend);
         setTimeout(loop, 500); // 0.5 seconds
     }

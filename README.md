@@ -8,6 +8,8 @@
 
 ## Project link 
 
+After over 1000 lines of code, the beta version is complete:
+
 [https://friend-locator.duckdns.org](https://friend-locator.duckdns.org)
 
 ## Usage: 
@@ -28,6 +30,8 @@
 
 - Add better way to stop tracking a friend.
 - Add two-way authentication for a friend connection.
+- Maybe make canvas 3D and add an elevation aspect 
+- Could maybe improve efficiency if users had direct connection to eachother rather than having to access the server.
 
 ### Dependencies
 - python3-mysql.connector
