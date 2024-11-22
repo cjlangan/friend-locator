@@ -8,7 +8,7 @@
 
 ## Project link 
 
-After over 1000 lines of code, the beta version is complete:
+After over 1000 lines of code and 100 commits, the beta version is complete:
 
 [https://friend-locator.duckdns.org](https://friend-locator.duckdns.org)
 
