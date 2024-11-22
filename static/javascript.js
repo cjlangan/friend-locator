@@ -24,7 +24,7 @@ let myOrientation;
 let xFactor = 0;
 let yFactor = 1;
 
-let angle = 0;
+let angle = 90;
 let deviceRotation = 0;
 
 let friend = "";
@@ -206,6 +206,7 @@ function checkForFriend()
     {
         console.log("No username was entered.")
         infotext.innerHTML = "Enter a username of a friend"
+        buttonState = "halted";
         isFriend = false;
     }
 }
@@ -344,15 +345,22 @@ function loop()
         }
         else
         {
+            // User must have chose to stop finding their friend
             infotext.innerHTML = "Enter a username of a friend";
             button.innerHTML = "Start Finding Friend";
             document.getElementById('input').value = "";
+            buttonState = "halted";
+
+            // Reset Compass
+            setTimeout(() => { angle = 90 }, 3000);
         }
     }
     else
     {
+        // The username inputted was invalid
         infotext.innerHTML = "Username " + friend + " does not exist";
         button.innerHTML = "Start Finding Friend";
+        buttonState = "halted";
     }
 }
 
