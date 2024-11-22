@@ -28,9 +28,12 @@ body {
     padding: 4vw; 
     font-size: 3vw;
     color: black;
-    gap: 10vw;
     justify-content: center;
     align-items: center;
+}
+
+.topnav a {
+    margin: 0 4vw;
 }
 
 .header {
@@ -90,7 +93,7 @@ body {
     color: white;
     background: linear-gradient(to right, #bc4df2, #4df2f2);
     padding: 3vw 4vw;
-    width: 50vw;
+    width: 52vw;
     border-radius: 2vw;
     border: 1vw solid black;
     cursor: pointer;
