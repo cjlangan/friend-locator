@@ -2,6 +2,7 @@ const lat_html = document.getElementById("latitude");
 const long_html = document.getElementById("longitude");
 const acc_html = document.getElementById("accuracy");
 const infotext = document.getElementById("infotext");
+const button = document.getElementById("button");
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
@@ -28,6 +29,8 @@ let deviceRotation = 0;
 
 let friend = "";
 let isFriend = false;
+
+let buttonState = "halted"; // either "halted" or "finding"
 
 main() 
 
@@ -202,6 +205,7 @@ function checkForFriend()
     else
     {
         console.log("No username was entered.")
+        infotext.innerHTML = "Enter a username of a friend"
         isFriend = false;
     }
 }
@@ -210,6 +214,15 @@ function checkForFriend()
 // Request orientation permission and then also checks for a frined
 function requestOrientationPermission()
 {
+    if(buttonState === "halted")
+    {
+        buttonState = "finding";
+    }
+    else
+    {
+        buttonState = "halted";
+    }
+    
     checkForFriend();
 
     console.log("Device Orientation Requested...");
@@ -299,7 +312,6 @@ async function getFriendLocation(username)
 
         if(!response.ok) {
             console.log("Failed to get friend location. Incorrect username.");
-            infotext.innerHTML = "Username " + friend + " does not exist";
             isFriend = false;
             return;
         }
@@ -322,13 +334,27 @@ function loop()
 {
     if(isFriend)
     {
-        console.log("Retrieving " + friend + " location.");
-        infotext.innerHTML = "Locating " + friend;
-        getFriendLocation(friend);
-        setTimeout(loop, 500); // 0.5 seconds
+        if(buttonState === "finding")
+        {
+            console.log("Retrieving " + friend + " location.");
+            infotext.innerHTML = "Locating " + friend;
+            button.innerHTML = "Stop";
+            getFriendLocation(friend);
+            setTimeout(loop, 500); // 0.5 seconds
+        }
+        else
+        {
+            infotext.innerHTML = "Enter a username of a friend";
+            button.innerHTML = "Start Finding Friend";
+            document.getElementById('input').value = "";
+        }
+    }
+    else
+    {
+        infotext.innerHTML = "Username " + friend + " does not exist";
+        button.innerHTML = "Start Finding Friend";
     }
 }
-
 
 // Set html elements to acquired Device Orientation Data
 function handleOrientation(event)

@@ -90,6 +90,7 @@ body {
     color: white;
     background: linear-gradient(to right, #bc4df2, #4df2f2);
     padding: 3vw 4vw;
+    width: 50vw;
     border-radius: 2vw;
     border: 1vw solid black;
     cursor: pointer;
