@@ -150,14 +150,20 @@ class Client:
         WHERE user_id_1 = ?
         '''
 
-        #I don't want to make the user of this class deal with a tuple of tuples...
         results = cursor.execute(query, (self.user_id, self.user_id)).fetchall()
 
-        results_list = []
-        for uid_tuple in results:
-            results_list.append(uid_tuple[0])
+        return self._sql_results_to_list(results)
 
-        return results_list
+    #takes the first element of every tuple 
+    #and adds them to an list.
+    @staticmethod
+    def _sql_results_to_list(results):
+        list = []
+        for result_tuple in results:
+            list.append(result_tuple[0])
+
+        return list
+
 
     def is_friends_with(self, friend):
         if self.user_id == friend.user_id:
@@ -335,6 +341,26 @@ class Client:
         cursor.execute(query, (self.user_id, lat, lon))
         self.db.commit() 
 
+    def get_incoming_friend_requests(self):
+        cursor = self.db.cursor()
+        query = '''
+        SELECT from_user FROM friend_requests
+        WHERE to_user = ?
+        '''
+
+        result = cursor.execute(query, (self.user_id,)).fetchall()
+        return self._sql_results_to_list(result)
+
+    def get_outgoing_friend_requests(self):
+        cursor = self.db.cursor()
+        query = '''
+        SELECT to_user FROM friend_requests
+        WHERE from_user = ?
+        '''
+
+        results = cursor.execute(query, (self.user_id,)).fetchall()
+        return self._sql_results_to_list(results)
+
     def get_location(self):
         cursor = self.db.cursor()
         query = '''
@@ -387,8 +413,11 @@ if __name__ == "__main__":
 
 
     print(user1.get_friends())
-    print(user1.unfriend(user2))
-    print(user2.is_friends_with(user1))
+    print(user1.send_friend_request(user2))
+    print(user1.get_outgoing_friend_requests())
+    print(user2.get_outgoing_friend_requests())
+    print(user1.get_incoming_friend_requests())
+    print(user2.get_incoming_friend_requests())
     print(user1.get_friends())
     # print(user2.is_friends_with(user1))
 
