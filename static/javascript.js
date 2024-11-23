@@ -30,8 +30,6 @@ let deviceRotation = 0;
 let friend = "";
 let isFriend = false;
 
-let buttonState = "halted"; // either "halted" or "finding"
-
 main() 
 
 function main()
@@ -189,45 +187,58 @@ function isIOS()
     return /iPhone|iPad|iPod/i.test(navigator.userAgent || navigator.vendor || (window.opera && opera.toString() === `[object Opera]`));
 }
 
-// Checks if a friend has been entered as input
-function checkForFriend()
+// The Submit Button
+// Request orientation permission and then also checks for a frined
+async function handleButtonClick()
 {
-    console.log("Checking for input");
-
-    // Process textbox username input 
+    // Get user input and clear box
     friend = document.getElementById('input').value;
-    if(friend != "")
+
+    if(button.dataset.state === "finding")
     {
-        isFriend = true;
-        loop();
-        console.log("Checking for " + friend + " in database");
+        // Stop Searching. Set state and HTML
+        button.dataset.state = "not finding";
+        button.innerHTML = "Start Finding Friend";
+        infotext.innerHTML = "Enter a username of a friend";
+        document.getElementById('input').value = "";
+
+        // Reset compass
+        friend = "";
+        xFactor = 0; 
+        yFactor = 1;
+
+        // Remove orientation event listener and render
+        window.removeEventListener("deviceorientation", handleOrientation, true); 
+        render();
+
+        return;
     }
-    else
+    else // State is "not finding"
     {
-        console.log("No username was entered.")
-        infotext.innerHTML = "Enter a username of a friend"
-        buttonState = "halted";
-        isFriend = false;
+        // See if friend exists
+        await getFriendLocation(friend);
+
+        if(isFriend)
+        {
+            // Update HTML
+            button.dataset.state = "finding";
+            button.innerHTML = "Stop";
+            infotext.innerHTML = "Locating " + friend;
+            
+            // Pull friend's location every 0.5 seconds and get orientation
+            getOrientation();
+            pollFriendLocation();
+        }
+        else // Not friend
+        {
+            infotext.innerHTML = "Username " + friend + " does not exist";
+        }
     }
 }
 
-// The Submit Button
-// Request orientation permission and then also checks for a frined
-function requestOrientationPermission()
+// Set orientation event listener if allowed
+function getOrientation() 
 {
-    if(buttonState === "halted")
-    {
-        buttonState = "finding";
-    }
-    else
-    {
-        buttonState = "halted";
-    }
-    
-    checkForFriend();
-
-    console.log("Device Orientation Requested...");
-
     if(isIOS())
     {
         console.log("Device is running IOS mobile...");
@@ -239,15 +250,28 @@ function requestOrientationPermission()
             {
                 console.log("Permission Granted");
                 window.addEventListener("deviceorientation", handleOrientation, true); 
-
             }
         })
         .catch(console.error)
     }
     else
     {
-        console.log("Device is not IOS mobile. Orinetation can be obtained.");
+        console.log("Device is not IOS mobile. Orientation can be obtained.");
         window.addEventListener("deviceorientation", handleOrientation, true); 
+    }
+}
+
+// Loops on an intercal to get friends locaiton, while in a finding state
+function pollFriendLocation()
+{
+    if(button.dataset.state === "finding")
+    {
+        setTimeout( () => {
+
+            getFriendLocation(friend);
+            pollFriendLocation();
+            
+        }, 500); // 0.5 seconds
     }
 }
 
@@ -317,8 +341,8 @@ async function getFriendLocation(username)
             return;
         }
 
+        isFriend = true;
         const friend_location = await response.json();
-
         console.log(friend_location);
 
         // Determine angle relative to you
@@ -327,40 +351,6 @@ async function getFriendLocation(username)
     catch(e)
     {
         console.error(e)
-    }
-}
-
-// Retrive friend location on an interval basis
-function loop()
-{
-    if(isFriend)
-    {
-        if(buttonState === "finding")
-        {
-            console.log("Retrieving " + friend + " location.");
-            infotext.innerHTML = "Locating " + friend;
-            button.innerHTML = "Stop";
-            getFriendLocation(friend);
-            setTimeout(loop, 500); // 0.5 seconds
-        }
-        else
-        {
-            // User must have chose to stop finding their friend
-            infotext.innerHTML = "Enter a username of a friend";
-            button.innerHTML = "Start Finding Friend";
-            document.getElementById('input').value = "";
-            buttonState = "halted";
-
-            // Reset Compass
-            setTimeout(() => { angle = 90 }, 3000);
-        }
-    }
-    else
-    {
-        // The username inputted was invalid
-        infotext.innerHTML = "Username " + friend + " does not exist";
-        button.innerHTML = "Start Finding Friend";
-        buttonState = "halted";
     }
 }
 
