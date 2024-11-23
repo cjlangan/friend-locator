@@ -106,6 +106,13 @@ def create_session():
     resp.set_cookie('token', f'{token.token}', expires = token.expiry, secure = True)
     return resp
 
+@app.route('/API/users/<username>', methods=['GET'])
+def user_exists(username):
+    user = database.get_client_from_name(username)
+    if user is None:
+        return "User does not exist", 404
+    return "user exists", 200 
+
 @app.route('/API/users', methods=['POST'])
 def add_user():
     #TODO clean the input to stop SQL code injection.
