@@ -139,7 +139,26 @@ class Client:
         self.db = db
         self.user_id = user_id
 
-    #TODO
+    def get_friends(self):
+
+        cursor = self.db.cursor()
+        query = '''
+        SELECT user_id_1 FROM friends
+        WHERE user_id_2 = ?
+        UNION
+        SELECT user_id_2 FROM friends
+        WHERE user_id_1 = ?
+        '''
+
+        #I don't want to make the user of this class deal with a tuple of tuples...
+        results = cursor.execute(query, (self.user_id, self.user_id)).fetchall()
+
+        results_list = []
+        for uid_tuple in results:
+            results_list.append(uid_tuple[0])
+
+        return results_list
+
     def is_friends_with(self, friend):
         if self.user_id == friend.user_id:
             return True #Should this be false??
@@ -157,6 +176,40 @@ class Client:
 
         return result[0] >= 1
 
+
+    def unfriend(self, friend):
+        if friend is None:
+            return False
+
+        cursor = self.db.cursor()
+        query = '''
+        DELETE FROM FRIENDS
+        WHERE (user_id_1 = ? AND user_id_2 = ?) OR
+        (user_id_1 = ? AND user_id_2 = ?)
+        '''
+
+        cursor.execute(query,
+             (self.user_id, friend.user_id, friend.user_id, self.user_id)
+         )
+        self.db.commit()
+
+        return True
+
+    def withdraw_friend_request(self, friend):
+        if friend is None:
+            return False
+
+        cursor = self.db.cursor()
+        query = '''
+        DELETE FROM friend_requests
+        WHERE to_user = ? AND from_user = ?
+        '''
+
+        cursor.execute(query, (friend.user_id, self.user_id)) 
+        self.db.commit()
+        return True
+
+        
 
     #returns one of
     # FAILURE, REQUEST_SENT, DUPLICATE_REQUEST, FRIEND_ADDED, ALREADY_FRIENDS
@@ -323,15 +376,20 @@ class Client:
             print(f"lat: {location[0]}")
             print(f"lon: {location[1]}")
 
-# db = Database("database.sqlite")
-# user1 = db.get_client_from_name("logan1")
-# if user1 is None:
-#     print("User1 does not exist")
-# user2 = db.get_client_from_name("logan2")
-# if user2 is None:
-#     print("User2 does not exist")
+if __name__ == "__main__":
+    db = Database("database.sqlite")
+    user1 = db.get_client_from_name("logan1")
+    if user1 is None:
+        print("User1 does not exist")
+    user2 = db.get_client_from_name("logan2")
+    if user2 is None:
+        print("User2 does not exist")
 
 
-# # print(user1.send_friend_request(user2))
-# print(user2.is_friends_with(user1))
+    print(user1.get_friends())
+    print(user1.unfriend(user2))
+    print(user2.is_friends_with(user1))
+    print(user1.get_friends())
+    # print(user2.is_friends_with(user1))
+
 
