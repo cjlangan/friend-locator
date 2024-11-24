@@ -362,6 +362,8 @@ async function userExists(username)
 // Function to retrieve your frinds location 
 async function getFriendLocation(username)
 {
+    if(username === "") return;
+
     try {
         const response = await fetch(`/API/location/${username}`, {
             method: 'GET',
