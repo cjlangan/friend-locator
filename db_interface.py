@@ -57,6 +57,15 @@ class Database:
 
 
 
+    def user_id_list_to_name_list(self, id_list):
+        name_list= []
+        for id in id_list: 
+            name_list.append(
+                    self.get_client_from_id(id).get_name()
+                    )
+
+        return name_list
+
     def create_client(self, username, password):
         cursor = self.db.cursor()
         query = '''
@@ -105,6 +114,9 @@ class Database:
         user_id = result[0]
         return Client(self.db, user_id)
 
+
+    def get_client_from_id(self, client_id):
+        return Client(self.db, client_id)
 
     def get_client_from_token(self, token):
         cursor = self.db.cursor() 
@@ -184,7 +196,7 @@ class Client:
 
 
     def unfriend(self, friend):
-        if friend is None:
+        if friend is None or not self.is_friends_with(friend):
             return False
 
         cursor = self.db.cursor()

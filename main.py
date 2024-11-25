@@ -4,6 +4,7 @@ from flask import url_for
 from flask import current_app
 from flask import request, redirect, url_for, jsonify
 import signal
+from db_interface import Client 
 import db_interface 
 
 DATABASE_PATH = "database.sqlite"
@@ -55,6 +56,71 @@ def set_location():
 
     return 'Location updated successfuly', 200
 
+
+#which can be incoming or outgoing
+@app.route('/API/friend_requests/<which>', methods=['GET'])
+def get_friend_requests(which):
+    user = get_user_from_token(request)
+    if user is None:
+        return 'Invalid or missing token.', 401
+
+    if which == "incoming":
+        request_id_list = user.get_incoming_friend_requests()
+    elif which == "outgoing":
+        request_id_list = user.get_outgoing_friend_requests()
+    else:
+        return 'Invalid path', 404
+
+    user_name_list = database.user_id_list_to_name_list(request_id_list)
+    return jsonify(user_name_list)
+
+@app.route('/API/friend', methods=['GET'])
+def get_friends():
+    user = get_user_from_token(request)
+    if user is None:
+        return 'Invalid or missing token.', 401
+
+    friend_list = database.user_id_list_to_name_list(user.get_friends())
+    return jsonify(friend_list)
+ 
+
+@app.route('/API/friend', methods=['DELETE'])
+def remove_friend():
+    user = get_user_from_token(request)
+    if user is None:
+        return 'Invalid or missing token.', 401
+
+    username = request.form['name']
+    friend = database.get_client_from_name(username)
+    success = user.unfriend(friend)
+    
+    if success:
+        return 'Success', 200
+    return 'Failiure', 200
+    
+
+@app.route('/API/friend', methods=['POST'])
+def add_friend():
+    user = get_user_from_token(request)
+    if user is None:
+        return 'Invalid or missing token.', 401
+
+    username = request.form['name']
+    friend = database.get_client_from_name(username)
+    status = user.send_friend_request(friend)
+
+    match status:
+        case Client.FAILURE:
+            return 'Could not send friend request.', 400
+        case Client.REQUEST_SENT:
+            return 'Request sent', 200
+        case Client.DUPLICATE_REQUEST:
+            return 'You have already sent a request to this user', 200
+        case Client.FRIEND_ADDED:
+            return 'Added friend', 200
+        case Client.ALREADY_FRIENDS:
+            return 'Could not send frient request. You are already friends with this user', 200
+    
 
 @app.route('/API/location/<username>', methods=['GET'])
 def get_friend_location(username):
