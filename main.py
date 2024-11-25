@@ -176,8 +176,8 @@ def create_session():
 def user_exists(username):
     user = database.get_client_from_name(username)
     if user is None:
-        return "User does not exist", 404
-    return "user exists", 200 
+        return jsonify({"exists": False}), 200
+    return jsonify({"exists": True}), 200
 
 @app.route('/API/users', methods=['POST'])
 def add_user():
