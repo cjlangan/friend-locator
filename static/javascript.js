@@ -31,7 +31,6 @@ let friend = "";
 let isFriend = false;
 
 let hasAllowed = false;
-let intervalId;
 
 main() 
 
@@ -202,9 +201,8 @@ async function handleButtonClick()
 
     if(button.dataset.state === "finding")
     {
-        // Stop the interval 
-        clearInterval(intervalId);
-        intervalId = null;
+        // Stop the iterative get request 
+        clearTimeout(timeoutId);
 
         // Stop Searching. Set state and HTML
         button.dataset.state = "not finding";
@@ -235,9 +233,14 @@ async function handleButtonClick()
             button.innerHTML = "Stop";
             infotext.innerHTML = "Locating " + friend;
             
-            // Pull friend's location every 0.5 seconds and get orientation
-            intervalId = setInterval(getFriendLocation, 500, friend);
             getOrientation();
+
+            // Pull friend's location every 0.5 seconds
+            while(button.dataset.state === "finding")
+            {
+                await getFriendLocation(friend);
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
         }
         else // Not friend
         {
@@ -286,9 +289,12 @@ function setLocation(position)
     myLatitude = coords.latitude;
     myLongitude = coords.longitude;
 
-    //send position to server.
-    position_array = ["lat", myLatitude, "lon", myLongitude, "acc", coords.accuracy]
-    send_post("/API/location", http_encode(position_array));
+    if(button.dataset.state === "finding")
+    {
+        //send position to server if on finding mode 
+        position_array = ["lat", myLatitude, "lon", myLongitude, "acc", coords.accuracy]
+        send_post("/API/location", http_encode(position_array));
+    }
 
     lat_html.innerHTML = "Latitude: " + myLatitude.toFixed(6);
     long_html.innerHTML = "Longitude: " + myLongitude.toFixed(6);
@@ -353,7 +359,7 @@ async function userExists(username)
 // Function to retrieve your friends location 
 async function getFriendLocation(username)
 {
-    if(username === "" || intervalId === null) return;
+    if(username === "") return;
 
     try {
         const response = await fetch(`/API/location/${username}`, {
