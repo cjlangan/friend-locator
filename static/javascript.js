@@ -29,6 +29,7 @@ let deviceRotation = 0;
 
 let friend = "";
 let isFriend = false;
+let isFirstLocation = true;
 
 let hasAllowed = false;
 
@@ -286,9 +287,10 @@ function setLocation(position)
     myLatitude = coords.latitude;
     myLongitude = coords.longitude;
 
-    if(button.dataset.state === "finding")
+    if(button.dataset.state === "finding" || isFirstLocation)
     {
         //send position to server if on finding mode 
+        isFirstLocation = false;
         position_array = ["lat", myLatitude, "lon", myLongitude, "acc", coords.accuracy]
         send_post("/API/location", http_encode(position_array));
     }
