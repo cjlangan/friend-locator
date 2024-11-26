@@ -201,9 +201,6 @@ async function handleButtonClick()
 
     if(button.dataset.state === "finding")
     {
-        // Stop the iterative get request 
-        clearTimeout(timeoutId);
-
         // Stop Searching. Set state and HTML
         button.dataset.state = "not finding";
         button.innerHTML = "Start Finding Friend";
