@@ -31,6 +31,7 @@ let friend = "";
 let isFriend = false;
 
 let hasAllowed = false;
+let intervalId;
 
 main() 
 
@@ -201,6 +202,10 @@ async function handleButtonClick()
 
     if(button.dataset.state === "finding")
     {
+        // Stop the interval 
+        clearInterval(intervalId);
+        intervalId = null;
+
         // Stop Searching. Set state and HTML
         button.dataset.state = "not finding";
         button.innerHTML = "Start Finding Friend";
@@ -231,7 +236,7 @@ async function handleButtonClick()
             infotext.innerHTML = "Locating " + friend;
             
             // Pull friend's location every 0.5 seconds and get orientation
-            pollFriendLocation();
+            intervalId = setInterval(getFriendLocation, 500, friend);
             getOrientation();
         }
         else // Not friend
@@ -265,20 +270,6 @@ async function getOrientation()
         console.log("Device is not IOS mobile. Orientation can be obtained.");
         window.addEventListener("deviceorientation", handleOrientation, true); 
         hasAllowed = true;
-    }
-}
-
-// Loops on an intercal to get friends locaiton, while in a finding state
-function pollFriendLocation()
-{
-    if(button.dataset.state === "finding")
-    {
-        setTimeout( () => {
-
-            getFriendLocation(friend);
-            pollFriendLocation();
-            
-        }, 500); // 0.5 seconds
     }
 }
 
@@ -359,10 +350,10 @@ async function userExists(username)
     }
 }
 
-// Function to retrieve your frinds location 
+// Function to retrieve your friends location 
 async function getFriendLocation(username)
 {
-    if(username === "") return;
+    if(username === "" || intervalId === null) return;
 
     try {
         const response = await fetch(`/API/location/${username}`, {
