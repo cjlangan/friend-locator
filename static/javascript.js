@@ -19,6 +19,7 @@ let size; // dimension size of canvas
 let myLatitude;
 let myLongitude;
 let myOrientation;
+let testVarOr;
 
 // Coordinate direction of vector. Range [-1, 1]. e.g: (1, -1) is the bottom right corner.
 let xFactor = 0;
@@ -296,7 +297,6 @@ async function getOrientation()
         else
         {
             alert("This device does not have gyroscopic capabilities. Please use a mobile device.");
-            infotext.innerHTML = "ERROR: This device has no internal compass."
         }
     }
 }
