@@ -86,6 +86,18 @@ function get_requests(container) {
     req.send()
 }
 
+submit_if_enter = function (e) 
+{
+    if(e.key == 'Enter')
+    {
+        send_friend_request();
+    }
+}
+
+window.addEventListener('keypress', submit_if_enter)
+
+
+
 
 function main() {
     //get all incoming friend requests
