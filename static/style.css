@@ -144,7 +144,7 @@ body {
 
 .request_card {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     border: solid;
     width: 90%;
@@ -161,7 +161,12 @@ body {
     flex-direction: column;
 }
 
+
 .request_button {
-    height: 10%;
-    background-color: blue;
+    height: 90%;
+    width: 10%;
+    border: solid;
+    border-radius: 10vmin;
+    justify-content: center;
+    align-items: center;
 }

@@ -22,6 +22,18 @@ function create_incoming_request_card(name) {
     textbox.style.height= "90%";
     textbox.style.border= "dotted";
     card.appendChild(textbox);
+    accept_button = document.createElement("div")
+    reject_button = document.createElement("div")
+    accept_button.classList.add("request_button")
+    reject_button.classList.add("request_button")
+    button_text_box1 = document.createElement("div")
+    button_text_box2 = document.createElement("div")
+    accept_button.appendChild(button_text_box1)
+    reject_button.appendChild(button_text_box2)
+    button_text_box1.innerText = "✓"
+    button_text_box2.innerText = "x"
+    card.appendChild(accept_button);
+    card.appendChild(reject_button);
     return card;
 }
 
