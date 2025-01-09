@@ -12,8 +12,9 @@ async function get_requests(incoming=true) {
         return null
     }
 
-    return await response.json()
-
+    json = await response.json()
+    console.log(json)
+    return json
 }
 
 function create_incoming_request_card(name) {
@@ -40,29 +41,6 @@ function create_incoming_request_card(name) {
     reject_button.addEventListener("click", () => card.remove());
 
     return card;
-}
-
-function get_requests(container) {
-
-    container.innerHTML = null;
-
-    req = new XMLHttpRequest()
-    req.open("GET", "/API/friend_requests/incoming")
-
-    req.onreadystatechange = () => {
-        if(req.readystate = XMLHttpRequest.DONE) {
-            if(req.status == 200) {
-                if(req.responseText == []) {
-                    container.textContent = "No incoming requests."
-                } else {
-                    container.textContent = req.responseText                
-                }
-            } else {
-                container.textContent = "Error fetching incoming friend requests."
-            }
-        }
-    }
-    req.send()
 }
 
 //HTTP encodes an arry where the first element is the key and the second is the 
@@ -105,12 +83,10 @@ submit_if_enter = function (e)
 
 window.addEventListener('keypress', submit_if_enter)
 
-
-
 function main() {
     //get all incoming friend requests
     incoming_requests_box = document.querySelector("#incoming-requests")
-    get_requests(true)
+    alert(get_requests(true))
     incoming_requests_box.appendChild(create_incoming_request_card("logan")); 
     incoming_requests_box.appendChild(create_incoming_request_card("connor")); 
     //get all outgoing friend requests
