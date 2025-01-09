@@ -5,29 +5,34 @@ textbox = document.getElementById("username");
 async function get_requests(incoming=true) {
     path = "/API/friend_requests/" + (incoming ? "incoming" : "outgoing")
 
-    req = new XMLHttpRequest()
-
     response = await fetch(path)
     if(!response.ok) {
         return null
     }
 
     json = await response.json()
-    console.log(json)
     return json
 }
 
 function create_incoming_request_card(name) {
     const card = document.createElement("div")
     card.classList.add("request_card")
+<<<<<<< HEAD
+    
+=======
+
+    //setup textbox
     const textbox = document.createElement("div")
-    textbox.style.width = "60%";
-    textbox.style.height= "90%";
-    textbox.style.border= "dotted";
-    textbox.innerText = name;
+    textbox.classList.add("friend_request_textbox")
+    const textbox_inner_box = document.createElement("div");
+    textbox.appendChild(textbox_inner_box);
+    textbox_inner_box.textContent = name
     card.appendChild(textbox);
+
+    //buttons
     const accept_button = document.createElement("button")
     const reject_button = document.createElement("button")
+>>>>>>> b4cc20970b171b2aeaee54fbcc536810e110000f
     accept_button.classList.add("request_button")
     reject_button.classList.add("request_button")
     const button_text_box1 = document.createElement("div")
@@ -101,11 +106,13 @@ submit_if_enter = function (e)
 
 window.addEventListener('keypress', submit_if_enter)
 
-function main() {
+async function main() {
     //get all incoming friend requests
     incoming_requests_box = document.querySelector("#incoming-requests")
-    alert(get_requests(true))
-    incoming_requests_box.appendChild(create_incoming_request_card("logan")); 
-    incoming_requests_box.appendChild(create_incoming_request_card("connor")); 
+    incoming_requests = await get_requests(true)
+    outgoing_requests = await get_requests(false)
+    for(i = 0; i < incoming_requests.length; i++) {
+        incoming_requests_box.appendChild(create_incoming_request_card(incoming_requests[i])); 
+    }
     //get all outgoing friend requests
 }
