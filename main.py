@@ -88,6 +88,7 @@ def get_friend_requests(which):
     user_name_list = database.user_id_list_to_name_list(request_id_list)
     return jsonify(user_name_list)
 
+
 @app.route('/API/friend', methods=['GET'])
 def get_friends():
     user = get_user_from_token(request)
@@ -110,7 +111,7 @@ def remove_friend():
     
     if success:
         return 'Success', 200
-    return 'Failiure', 200
+    return 'Failiure', 201
     
 
 @app.route('/API/friend', methods=['POST'])
