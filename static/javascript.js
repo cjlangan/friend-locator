@@ -238,6 +238,8 @@ async function handleButtonClick()
         // Check if friend exists
         isFriend = await userExists(friend);
 
+        console.log("Is friend: " + isFriend);
+
         if(isFriend)
         {
             // Update HTML
@@ -374,7 +376,27 @@ async function userExists(username)
         const user_existence = await response.json();
         console.log(user_existence);
 
-        return user_existence.exists;
+        if(user_existence.exists)
+        {
+            const response2 = await fetch("/API/friend", {
+                method: 'GET',
+            });
+
+            if(!response2.ok) {
+                console.log("Failed to check for friend");
+                return;
+            }
+
+
+            const friend_array = await response2.json();
+            console.log(friend_array);
+
+            return username in friend_array;
+        }
+        else
+        {
+            return false;
+        }
     }
     catch(e)
     {
