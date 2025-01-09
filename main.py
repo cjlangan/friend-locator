@@ -41,11 +41,12 @@ def logout():
     resp.set_cookie('token', '0', expires = 0, secure = True)
     return resp
 
-# @app.route('/add_friends')
-# def add_friends():
-#     user = get_user_from_token(request)
-#     if user is None or not user.has_valid_token():
-#         return redirect(url_for('return_login_page'))
+@app.route('/add-friends')
+def add_friends():
+    user = get_user_from_token(request)
+    if user is None or not user.has_valid_token():
+        return redirect(url_for('return_login_page'))
+    return render_template('add_friends.html')
 
 
 @app.route('/')
