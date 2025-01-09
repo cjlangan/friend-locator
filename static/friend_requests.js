@@ -66,12 +66,13 @@ function http_encode(array) {
 }
 
 // Function to simplify the process of sending a post request to the server
-function send_post(location, payload)
+function send_post(location, payload, fcn=null)
 {
     request = new XMLHttpRequest();     
     request.open("POST", location);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     request.send(payload)
+    return request
 }
 
 // Function to simplify the process of sending a post request to the server
@@ -86,9 +87,23 @@ function send_delete(location)
 
 async function send_friend_request() {
     let name_array = ["name", textbox.value];
-    console.log(textbox.value);
-    console.log(http_encode(name_array));
-    send_post("/API/friend", http_encode(name_array));
+
+    request = new XMLHttpRequest();     
+    request.open("POST", "/API/friend");
+    request.onreadystatechange = () => {
+    // In local files, status is 0 upon success in Mozilla Firefox
+        if (request.readyState === XMLHttpRequest.DONE) {
+            const status = request.status;
+            if (status === 0 || (status >= 200 && status < 400)) {
+                alert("Sent friend request")
+            } else {
+                alert(request.responseText)
+            }
+        }
+    };
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(http_encode(name_array))
+    return request
 }
 
 submit_if_enter = function (e) 
@@ -105,7 +120,6 @@ async function main() {
     //get all incoming friend requests
     incoming_requests_box = document.querySelector("#incoming-requests")
     incoming_requests = await get_requests(true)
-    outgoing_requests = await get_requests(false)
     for(i = 0; i < incoming_requests.length; i++) {
         incoming_requests_box.appendChild(create_incoming_request_card(incoming_requests[i])); 
     }
