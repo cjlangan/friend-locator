@@ -11,7 +11,7 @@ DATABASE_PATH = "database.sqlite"
 TOKEN_LENGTH = 64
 TOKEN_LIFETIME_SEC = 604800 #a week
 #create the app
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder='templates', static_url_path='/static')
 app.app_context()
 database = None
 

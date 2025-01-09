@@ -416,6 +416,8 @@ class Client:
 
 if __name__ == "__main__":
     db = Database("database.sqlite")
+    db.create_client("logan1", "password")
+    db.create_client("logan2", "password")
     user1 = db.get_client_from_name("logan1")
     if user1 is None:
         print("User1 does not exist")
