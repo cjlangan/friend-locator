@@ -34,11 +34,24 @@ def homepage():
         return redirect(url_for('return_login_page'))
     
 
+@app.route('/logout')
+def logout():
+    resp = app.make_response(redirect('/login-page'))
+    #invalidate cookie.
+    resp.set_cookie('token', '0', expires = 0, secure = True)
+    return resp
+
+# @app.route('/add_friends')
+# def add_friends():
+#     user = get_user_from_token(request)
+#     if user is None or not user.has_valid_token():
+#         return redirect(url_for('return_login_page'))
+
+
 @app.route('/')
 def webpage():
     user = get_user_from_token(request)
     if user is not None and user.has_valid_token():
-        user.print()
         return redirect(url_for('homepage'))
     else:
         return redirect(url_for('return_login_page'))
