@@ -127,8 +127,10 @@ window.addEventListener('keypress', submit_if_enter)
 async function main() {
     //get all incoming friend requests
     incoming_requests_box = document.querySelector("#incoming-requests")
-    incoming_requests = await get_requests(true)
-    for(i = 0; i < incoming_requests.length; i++) {
-        incoming_requests_box.appendChild(create_incoming_request_card(incoming_requests[i])); 
+    while true {
+        incoming_requests = await get_requests(true)
+        for(i = 0; i < incoming_requests.length; i++) {
+            incoming_requests_box.appendChild(create_incoming_request_card(incoming_requests[i])); 
+        }
     }
 }
