@@ -5,14 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Friend Locator HTTP test</title>
     <link rel="stylesheet" href="static/style.css">
-
 </head>
-    <body style="height: 80vh; width: 100vw; display: flex; align-items: center"> 
-        <h1> Send friend request </h1>
-            <input id="username" type="text" default="username">
-            <button style="margin-top: 3vh" id="create_account_bttn" > Send request </button>
+
+    <div style="display: flex; justify-content: center; align-items: center">
+        <div> 
+                <h1> Friend requests </h1>
+                <input id="username" type="text" default="username">
+                <button style="margin-top: 3vh" id="create_account_bttn" > Send request </button>
         </div>
-    </body>
+    </div>
+    <div style="display: flex; justify-content: center; align-items: center">
+        <div id="incoming-requests" style="border:solid; width:30vh; height: 40vh">
+            a
+        </div>
+        <div id="outgoing-requests" style="border:solid; width:30vh; height: 40vh">
+            b
+        </div>
+    </div>
     <script src="friend_adder.js"></script>
 </html>
 
