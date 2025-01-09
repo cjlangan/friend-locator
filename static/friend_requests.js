@@ -85,7 +85,14 @@ function send_delete(location)
     request.send()
 }
 
-
+function accept_friend(card) {
+    card.remove();
+    let name = card.children[0].innerText;
+    textbox.value = name
+    send_friend_request()
+    textbox.value = "";
+    
+}
 async function send_friend_request() {
     let name_array = ["name", textbox.value];
 
