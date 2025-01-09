@@ -383,7 +383,7 @@ class Client:
         cursor.execute(query, (self.user_id,) )
         results = cursor.fetchone()
 
-        return None if not results else results
+        return (None, None) if not results else results
 
     def get_name(self):
         cursor = self.db.cursor()
