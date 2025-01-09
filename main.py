@@ -147,7 +147,7 @@ def get_friend_location(username):
     if friend is None:
         return "Account does not exist.", 401 
 
-    if not db.is_friends_with(requester, friend)
+    if not requester.is_friends_with(friend):
         return "This is not your friend.", 401 
 
     latitude, longitude = friend.get_location()
