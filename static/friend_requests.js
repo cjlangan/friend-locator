@@ -17,10 +17,6 @@ async function get_requests(incoming=true) {
 function create_incoming_request_card(name) {
     const card = document.createElement("div")
     card.classList.add("request_card")
-<<<<<<< HEAD
-    
-=======
-
     //setup textbox
     const textbox = document.createElement("div")
     textbox.classList.add("friend_request_textbox")
@@ -32,7 +28,6 @@ function create_incoming_request_card(name) {
     //buttons
     const accept_button = document.createElement("button")
     const reject_button = document.createElement("button")
->>>>>>> b4cc20970b171b2aeaee54fbcc536810e110000f
     accept_button.classList.add("request_button")
     reject_button.classList.add("request_button")
     const button_text_box1 = document.createElement("div")
