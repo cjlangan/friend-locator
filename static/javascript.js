@@ -260,6 +260,8 @@ async function handleButtonClick()
     }
 }
 
+const test = document.getElementById("test");
+
 // Set orientation event listener if allowed
 async function getOrientation() 
 {
@@ -281,9 +283,21 @@ async function getOrientation()
     }
     else
     {
-        console.log("Device is not IOS mobile. Orientation can be obtained.");
-        window.addEventListener("deviceorientation", handleOrientation, true); 
-        hasAllowed = true;
+        console.log("Device is not IOS mobile. Checking if available.");
+        window.addEventListener("deviceorientation", testOrientation, true); 
+
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        if(testVarOr != null)
+        {
+            window.removeEventListener("deviceorientation", testOrientation, true); 
+            window.addEventListener("deviceorientation", handleOrientation, true); 
+        }
+        else
+        {
+            alert("This device does not have gyroscopic capabilities. Please use a mobile device.");
+            infotext.innerHTML = "ERROR: This device has no internal compass."
+        }
     }
 }
 
@@ -398,12 +412,18 @@ async function getFriendLocation(username)
     }
 }
 
+
+function testOrientation(event)
+{
+    testVarOr = event.alpha;
+}
+
 // Set html elements to acquired Device Orientation Data
 function handleOrientation(event)
 {
     console.log("Orientation Received.")
 
-    let compass = event.webkitCompassHeading; // || Math.abs(event.alpha);
+    let compass = event.webkitCompassHeading || Math.abs(event.alpha);
     
     // Angle of vector depends on orientation AND your frineds angle relative to you
     let vectorAngle = angle + compass;
