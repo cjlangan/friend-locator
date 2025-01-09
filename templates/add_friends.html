@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friend Locator HTTP test</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+
+
+    <div class="topnav" style="border: solid">
+            <a href="/homepage">Compass</a>
+            <a onclick="alert(\"unimplemented\")">Manage friends</a>
+            <a href="/logout">Logout</a>
+    </div>
+
+    <div style="display: flex; justify-content: center; align-items: center">
+        <div> 
+                <h1> Friend requests </h1>
+                <input id="username" type="text" default="username">
+                <button style="margin-top: 3vh" id="create_account_bttn" onclick='send_friend_request();'> Send request </button>
+        </div>
+    </div>
+    <div style="margin-top: 5vmin; display: flex; justify-content: center; align-items: center">
+        <div id="incoming-requests" class="request_conatiner">
+        </div>
+        <!-- <div id="outgoing-requests" class="request_conatiner"> -->
+        <!-- </div> -->
+    </div>
+    <script src="static/friend_requests.js"></script>
+</html>
+

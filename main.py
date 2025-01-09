@@ -11,7 +11,7 @@ DATABASE_PATH = "database.sqlite"
 TOKEN_LENGTH = 64
 TOKEN_LIFETIME_SEC = 604800 #a week
 #create the app
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder='templates', static_url_path='/static')
 app.app_context()
 database = None
 
@@ -34,11 +34,25 @@ def homepage():
         return redirect(url_for('return_login_page'))
     
 
+@app.route('/logout')
+def logout():
+    resp = app.make_response(redirect('/login-page'))
+    #invalidate cookie.
+    resp.set_cookie('token', '0', expires = 0, secure = True)
+    return resp
+
+@app.route('/add-friends')
+def add_friends():
+    user = get_user_from_token(request)
+    if user is None or not user.has_valid_token():
+        return redirect(url_for('return_login_page'))
+    return render_template('add_friends.html')
+
+
 @app.route('/')
 def webpage():
     user = get_user_from_token(request)
     if user is not None and user.has_valid_token():
-        user.print()
         return redirect(url_for('homepage'))
     else:
         return redirect(url_for('return_login_page'))
@@ -74,6 +88,7 @@ def get_friend_requests(which):
     user_name_list = database.user_id_list_to_name_list(request_id_list)
     return jsonify(user_name_list)
 
+
 @app.route('/API/friend', methods=['GET'])
 def get_friends():
     user = get_user_from_token(request)
@@ -96,7 +111,7 @@ def remove_friend():
     
     if success:
         return 'Success', 200
-    return 'Failiure', 200
+    return 'Failiure', 201
     
 
 @app.route('/API/friend', methods=['POST'])
@@ -131,6 +146,9 @@ def get_friend_location(username):
     friend = database.get_client_from_name(username)
     if friend is None:
         return "Account does not exist.", 401 
+
+    if not requester.is_friends_with(friend):
+        return "This is not your friend.", 401 
 
     latitude, longitude = friend.get_location()
     if latitude is None or longitude is None:

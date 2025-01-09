@@ -19,6 +19,7 @@ let size; // dimension size of canvas
 let myLatitude;
 let myLongitude;
 let myOrientation;
+let testVarOr;
 
 // Coordinate direction of vector. Range [-1, 1]. e.g: (1, -1) is the bottom right corner.
 let xFactor = 0;
@@ -186,6 +187,19 @@ function isIOS()
     return /iPhone|iPad|iPod/i.test(navigator.userAgent || navigator.vendor || (window.opera && opera.toString() === `[object Opera]`));
 }
 
+
+
+submit_if_enter = function (e) 
+{
+    if(e.key == 'Enter')
+    {
+        handleButtonClick();
+    }
+}
+
+window.addEventListener('keypress', submit_if_enter)
+
+
 // The Submit Button
 // Request orientation permission and then also checks for a frined
 async function handleButtonClick()
@@ -224,6 +238,8 @@ async function handleButtonClick()
         // Check if friend exists
         isFriend = await userExists(friend);
 
+        console.log("Is friend: " + isFriend);
+
         if(isFriend)
         {
             // Update HTML
@@ -242,10 +258,12 @@ async function handleButtonClick()
         }
         else // Not friend
         {
-            infotext.innerHTML = "Username " + friend + " does not exist";
+            infotext.innerHTML = "Username " + friend + " does not exist or is not your friend";
         }
     }
 }
+
+const test = document.getElementById("test");
 
 // Set orientation event listener if allowed
 async function getOrientation() 
@@ -268,9 +286,20 @@ async function getOrientation()
     }
     else
     {
-        console.log("Device is not IOS mobile. Orientation can be obtained.");
-        window.addEventListener("deviceorientation", handleOrientation, true); 
-        hasAllowed = true;
+        console.log("Device is not IOS mobile. Checking if available.");
+        window.addEventListener("deviceorientation", testOrientation, true); 
+
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        if(testVarOr != null)
+        {
+            window.removeEventListener("deviceorientation", testOrientation, true); 
+            window.addEventListener("deviceorientation", handleOrientation, true); 
+        }
+        else
+        {
+            alert("This device does not have gyroscopic capabilities. Please use a mobile device.");
+        }
     }
 }
 
@@ -347,7 +376,28 @@ async function userExists(username)
         const user_existence = await response.json();
         console.log(user_existence);
 
-        return user_existence.exists;
+        if(user_existence.exists)
+        {
+            console.log("got here")
+            const response2 = await fetch("/API/friend", {
+                method: 'GET',
+            });
+
+            if(!response2.ok) {
+                console.log("Failed to check for friend");
+                return;
+            }
+
+
+            const friend_array = await response2.json();
+            console.log(friend_array);
+
+            return friend_array.includes(username);
+        }
+        else
+        {
+            return false;
+        }
     }
     catch(e)
     {
@@ -385,12 +435,19 @@ async function getFriendLocation(username)
     }
 }
 
+
+function testOrientation(event)
+{
+    testVarOr = event.alpha;
+}
+
 // Set html elements to acquired Device Orientation Data
 function handleOrientation(event)
 {
     console.log("Orientation Received.")
 
-    let compass = event.webkitCompassHeading || Math.abs(event.alpha);
+
+    let compass = event.webkitCompassHeading || Math.abs(event.alpha - 360);
     
     // Angle of vector depends on orientation AND your frineds angle relative to you
     let vectorAngle = angle + compass;

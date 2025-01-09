@@ -141,3 +141,42 @@ body {
     justify-content: center;
     align-items: center
 }
+
+.request_card {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border: solid;
+    width: 90%;
+    height: 5vh;
+    margin-top: 2vmin;
+}
+
+.request_conatiner {
+    border:solid;
+    width:30vmin;
+    height: 40vmin;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.request_button {
+    height: 70%;
+    width: 10%;
+    border: solid;
+    border-radius: 10vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.friend_request_textbox {
+    width: 60%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}

@@ -179,7 +179,7 @@ class Client:
 
     def is_friends_with(self, friend):
         if self.user_id == friend.user_id:
-            return True #Should this be false??
+            return False #Should this be true??
 
         cursor = self.db.cursor()
         query = '''
@@ -383,7 +383,7 @@ class Client:
         cursor.execute(query, (self.user_id,) )
         results = cursor.fetchone()
 
-        return None if not results else results
+        return (None, None) if not results else results
 
     def get_name(self):
         cursor = self.db.cursor()
@@ -416,6 +416,8 @@ class Client:
 
 if __name__ == "__main__":
     db = Database("database.sqlite")
+    db.create_client("logan1", "password")
+    db.create_client("logan2", "password")
     user1 = db.get_client_from_name("logan1")
     if user1 is None:
         print("User1 does not exist")
