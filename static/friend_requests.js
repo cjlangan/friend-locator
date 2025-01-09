@@ -40,7 +40,7 @@ function create_incoming_request_card(name) {
     card.appendChild(reject_button);
 
     reject_button.addEventListener("click", () => remove_card(card));
-    accept_button.addEventListener("click", () => remove_card(card));
+    accept_button.addEventListener("click", () => accept_friend(card));
 
     return card;
 }
