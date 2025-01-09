@@ -18,19 +18,20 @@ async function get_requests(incoming=true) {
 }
 
 function create_incoming_request_card(name) {
-    card = document.createElement("div")
+    const card = document.createElement("div")
     card.classList.add("request_card")
-    textbox = document.createElement("div")
+    const textbox = document.createElement("div")
     textbox.style.width = "60%";
     textbox.style.height= "90%";
     textbox.style.border= "dotted";
+    textbox.innerText = name;
     card.appendChild(textbox);
-    accept_button = document.createElement("button")
-    reject_button = document.createElement("button")
+    const accept_button = document.createElement("button")
+    const reject_button = document.createElement("button")
     accept_button.classList.add("request_button")
     reject_button.classList.add("request_button")
-    button_text_box1 = document.createElement("div")
-    button_text_box2 = document.createElement("div")
+    const button_text_box1 = document.createElement("div")
+    const button_text_box2 = document.createElement("div")
     accept_button.appendChild(button_text_box1)
     reject_button.appendChild(button_text_box2)
     button_text_box1.innerText = "✓"
@@ -38,9 +39,16 @@ function create_incoming_request_card(name) {
     card.appendChild(accept_button);
     card.appendChild(reject_button);
 
-    reject_button.addEventListener("click", () => card.remove());
+    reject_button.addEventListener("click", () => remove_card(card));
 
     return card;
+}
+
+function remove_card(card) {
+    card.remove();
+    let name = card.children[0].innerText;
+    console.log(name);
+    send_delete("/API/friend/" + name);
 }
 
 //HTTP encodes an arry where the first element is the key and the second is the 
@@ -65,6 +73,16 @@ function send_post(location, payload)
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     request.send(payload)
 }
+
+// Function to simplify the process of sending a post request to the server
+function send_delete(location)
+{
+    request = new XMLHttpRequest();     
+    request.open("DELETE", location);
+    //request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send()
+}
+
 
 async function send_friend_request() {
     let name_array = ["name", textbox.value];
