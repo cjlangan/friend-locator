@@ -37,7 +37,7 @@ function create_incoming_request_card(name) {
     card.appendChild(accept_button);
     card.appendChild(reject_button);
 
-    reject_button.addEventListener("click", card.remove());
+    reject_button.addEventListener("click", () => card.remove());
 
     return card;
 }
