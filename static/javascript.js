@@ -378,6 +378,7 @@ async function userExists(username)
 
         if(user_existence.exists)
         {
+            console.log("got here")
             const response2 = await fetch("/API/friend", {
                 method: 'GET',
             });
@@ -391,7 +392,7 @@ async function userExists(username)
             const friend_array = await response2.json();
             console.log(friend_array);
 
-            return username in friend_array;
+            return friend_array.includes(username);
         }
         else
         {
