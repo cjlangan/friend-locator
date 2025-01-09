@@ -390,7 +390,7 @@ function handleOrientation(event)
 {
     console.log("Orientation Received.")
 
-    let compass = event.webkitCompassHeading; // || Math.abs(event.alpha);
+    let compass = event.webkitCompassHeading || Math.abs(event.alpha);
     
     // Angle of vector depends on orientation AND your frineds angle relative to you
     let vectorAngle = angle + compass;
