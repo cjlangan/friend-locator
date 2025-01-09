@@ -186,6 +186,19 @@ function isIOS()
     return /iPhone|iPad|iPod/i.test(navigator.userAgent || navigator.vendor || (window.opera && opera.toString() === `[object Opera]`));
 }
 
+
+
+submit_if_enter = function (e) 
+{
+    if(e.key == 'Enter')
+    {
+        handleButtonClick();
+    }
+}
+
+window.addEventListener('keypress', submit_if_enter)
+
+
 // The Submit Button
 // Request orientation permission and then also checks for a frined
 async function handleButtonClick()
