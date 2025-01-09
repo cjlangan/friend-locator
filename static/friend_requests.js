@@ -1,5 +1,7 @@
 main()
 
+textbox = document.getElementById("username");
+
 async function get_requests(incoming=true) {
     path = "/API/friend_requests/" + (incoming ? "incoming" : "outgoing")
 
@@ -13,6 +15,42 @@ async function get_requests(incoming=true) {
     return await response.json()
 
 }
+
+
+//HTTP encodes an arry where the first element is the key and the second is the 
+//value, the third is the key and the fourth is the value and so on.
+function http_encode(array) {
+
+    if(array.length % 2 != 0)
+        return undefined;
+
+    let string = "";
+    for(let i = 0; i < array.length; i += 2) {
+        string += array[i] + "=" + array[i + 1];
+        if(i < array.length - 2)
+            string += "&";
+    }
+    return string;
+}
+
+
+// Function to simplify the process of sending a post request to the server
+function send_post(location, payload)
+{
+    request = new XMLHttpRequest();     
+    request.open("POST", location);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(payload)
+}
+
+
+async function send_friend_request() {
+    let name_array = ["name", textbox.value];
+    console.log(textbox.value);
+    console.log(http_encode(name_array));
+    send_post("/API/friend", http_encode(name_array));
+}
+
 
 function create_incoming_request_card(name) {
     card = document.createElement("div")
