@@ -179,7 +179,7 @@ class Client:
 
     def is_friends_with(self, friend):
         if self.user_id == friend.user_id:
-            return True #Should this be false??
+            return False #Should this be true??
 
         cursor = self.db.cursor()
         query = '''

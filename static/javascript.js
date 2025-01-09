@@ -256,7 +256,7 @@ async function handleButtonClick()
         }
         else // Not friend
         {
-            infotext.innerHTML = "Username " + friend + " does not exist";
+            infotext.innerHTML = "Username " + friend + " does not exist or is not your friend";
         }
     }
 }

@@ -40,17 +40,8 @@ function create_incoming_request_card(name) {
     card.appendChild(reject_button);
 
     reject_button.addEventListener("click", () => remove_card(card));
-    accept_button.addEventListener("click", () => accept_friend(card));
 
     return card;
-}
-
-function accept_friend(card) {
-    card.remove();
-    let name = card.children[0].innerText;
-    textbox.value = name;
-    send_friend_request();
-    textbox.value = "";
 }
 
 function remove_card(card) {
@@ -118,5 +109,4 @@ async function main() {
     for(i = 0; i < incoming_requests.length; i++) {
         incoming_requests_box.appendChild(create_incoming_request_card(incoming_requests[i])); 
     }
-    //get all outgoing friend requests
 }
